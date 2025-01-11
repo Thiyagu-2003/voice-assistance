@@ -770,15 +770,12 @@
 
 
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1 neew ///////////////////////////////////
-
-
 import os
 import webbrowser
 import pyttsx3
 import psutil
 import pyautogui
 import time
-import platform
 import logging
 import speech_recognition as sr
 
@@ -816,41 +813,40 @@ def listen_command():
             logging.error(f"Error in listen_command: {e}")
             return ""
 
-def open_application(app_name, command):
+def open_application(command):
     """Open a system application or a specific URL."""
-    speak(f"Opening {app_name}.")
     try:
-        if command == "notepad":
+        if "notepad" in command:
             os.system("notepad")
-        elif command == "paint":
+        elif "paint" in command:
             os.system("mspaint")
-        elif command == "explorer":
+        elif "explorer" in command:
             os.system("explorer")
-        elif command == "settings":
+        elif "settings" in command:
             os.system("start ms-settings:")
-        elif command == "instagram":
+        elif "instagram" in command:
             webbrowser.open("https://www.instagram.com")
-        elif command == "facebook":
+        elif "facebook" in command:
             webbrowser.open("https://www.facebook.com")
-        elif command == "whatsapp":
+        elif "whatsapp" in command:
             webbrowser.open("https://web.whatsapp.com")
-        elif command == "youtube":
+        elif "youtube" in command:
             webbrowser.open("https://www.youtube.com")
-        elif command == "gmail":
+        elif "gmail" in command:
             webbrowser.open("https://mail.google.com")
-        elif command == "spotify":
+        elif "spotify" in command:
             webbrowser.open("https://open.spotify.com")
-        elif command == "twitter":
+        elif "twitter" in command:
             webbrowser.open("https://twitter.com")
-        elif command == "discord":
+        elif "discord" in command:
             webbrowser.open("https://discord.com")
-        elif command == "chrome":
+        elif "chrome" in command:
             os.system("start chrome")
         else:
-            speak(f"I don't know how to open {app_name}.")
+            speak(f"Sorry, I don't know how to open {command}.")
     except Exception as e:
-        speak(f"Failed to open {app_name}.")
-        logging.error(f"Error opening {app_name}: {e}")
+        speak(f"Failed to open {command}.")
+        logging.error(f"Error in open_application: {e}")
 
 def close_application(app_name):
     """Close the specified application."""
@@ -869,27 +865,32 @@ def close_application(app_name):
 
 def type_in_app():
     """Handle typing in the currently open application."""
-    speak("I am ready to type. Please start speaking.")
+    speak("I am ready to type. Please start speaking. Say 'stop typing' to exit.")
     while True:
         command = listen_command()
         if "stop typing" in command:
             speak("Exiting typing mode.")
             break
+        elif command:
+            pyautogui.write(command, interval=0)  # Set interval to 0 for fast typing
+            pyautogui.press('enter')  # Simulate pressing Enter after typing
         else:
-            pyautogui.write(command)
+            speak("No text detected. Please speak again.")
+
 
 def save_file():
     """Handle saving a file with a user-specified name."""
     speak("Please specify a name for the file.")
     file_name = listen_command()
     if file_name:
-        pyautogui.hotkey('ctrl', 's')
-        time.sleep(1)
-        pyautogui.write(file_name)
-        pyautogui.press('enter')
+        pyautogui.hotkey('ctrl', 's')  # Trigger Save dialog
+        time.sleep(1)  # Wait for the Save dialog to appear
+        pyautogui.write(file_name)  # Type the file name
+        pyautogui.press('enter')  # Confirm Save
         speak(f"File has been saved as {file_name}.")
     else:
         speak("File name not provided. Unable to save the file.")
+
 
 def send_message():
     """Handle typing and sending a message in social media apps."""
@@ -903,53 +904,30 @@ def send_message():
         else:
             pyautogui.write(command)
 
-def open_notepad():
-    open_application("Notepad", "notepad")
-    type_in_app()
-    save_file()
+def execute_command(command):
+    """Identify and execute commands."""
+    if "open" in command:
+        open_application(command.replace("open ", ""))
+    elif "close" in command:
+        app_name = command.replace("close ", "")
+        close_application(app_name)
+    elif "start typing" in command or "start to write" in command:
+        type_in_app()
+    elif "save" in command:
+        save_file()
+    else:
+        speak("Command not recognized.")
 
-def open_paint():
-    open_application("Paint", "paint")
-    type_in_app()
-    save_file()
+def main():
+    """Main program loop."""
+    speak("Welcome! I am ready to assist you.")
+    while True:
+        command = listen_command()
+        if command:
+            if "exit" in command or "quit" in command:
+                speak("Goodbye!")
+                break
+            execute_command(command)
 
-def open_explorer():
-    open_application("File Explorer", "explorer")
-
-def open_settings():
-    open_application("Settings", "settings")
-
-def open_instagram():
-    open_application("Instagram", "instagram")
-    send_message()
-
-def open_facebook():
-    open_application("Facebook", "facebook")
-    send_message()
-
-def open_whatsapp():
-    open_application("WhatsApp", "whatsapp")
-    send_message()
-
-def open_youtube():
-    open_application("YouTube", "youtube")
-
-def open_gmail():
-    open_application("Gmail", "gmail")
-
-def open_spotify():
-    open_application("Spotify", "spotify")
-
-def open_twitter():
-    open_application("Twitter", "twitter")
-    send_message()
-
-def open_discord():
-    open_application("Discord", "discord")
-    send_message()
-
-def open_chrome():
-    open_application("Google Chrome", "chrome")
-
-
-
+if __name__ == "__main__":
+    main()
