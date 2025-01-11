@@ -22,6 +22,9 @@ import geocoder # pip install geocoder
 from keyboard import press, press_and_release
 from utils import GoogleMap # Import shared utility function from utils
 import webbrowser as web
+from email.message import EmailMessage
+import smtplib
+from decouple import config
 
 engine = pyttsx3.init('sapi5')
 voices = engine.getProperty('voices')
@@ -214,5 +217,29 @@ def read_news():
 
 if __name__ == "__main__":
     read_news()
+
+#_________________________________ e mail ____________________________
+
+
+EMAIL = " "
+PASSWORD = " pass key"
+
+def send_email(receiver_add,subject,message):
+    try:
+        email = EmailMessage()
+        email['To'] = receiver_add
+        email['Subject'] = subject
+        email['From'] = EMAIL
+
+        email.set_content(message)
+        s= smtplib.SMTP("smtp.gmail.com",587)
+        s.starttls
+        s.login(EMAIL,PASSWORD)
+        s.send_message(email)
+        s.close()
+        return True
+    except Exception as e:
+        print(e)
+        return False
 
 

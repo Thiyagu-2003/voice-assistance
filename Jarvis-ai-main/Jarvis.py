@@ -43,6 +43,7 @@ from Web_Open import open_website            # new
 import threading    # new      
 import psutil           # new
 import imdb
+from Features import send_email,receiver_add,subject,message
 
 
 
@@ -591,6 +592,21 @@ class MainThread(QtCore.QThread):
 
             elif "what are the task's you can perform" in self.query:    # working
                 speak('google search ,play videos on youtube, search your location, check the current temperature, check your ip address, check your Wi-fi  speed, provide you news from NASA, calculate, search the map, wikipedia search , and many more')
+
+
+            elif 'send an email' in self.query or 'send a mail' in self.query:
+                speak("on what email address do you want to send sir?.please enter in terminal")
+                receiver_add = input("Email address:")
+                speak("what should be the subject sir?")
+                subject = command().capitalize()
+                speak("what is the message ?")
+                message = command().capitalize()
+                if send_email(receiver_add,subject,message):
+                    speak(" I have sent the email sir")
+                    print(" I have sent the email sir")
+                else:
+                    speak("something went wrong sir")
+
 
 
             elif 'shutup' in self.query or 'exit program' in self.query or 'exit' in self.query:    # working
