@@ -43,7 +43,7 @@ from Web_Open import open_website            # new
 import threading    # new      
 import psutil           # new
 import imdb
-from Features import send_email,receiver_add,subject,message
+from Features import send_email
 
 
 

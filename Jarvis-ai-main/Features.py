@@ -24,7 +24,7 @@ from utils import GoogleMap # Import shared utility function from utils
 import webbrowser as web
 from email.message import EmailMessage
 import smtplib
-from decouple import config
+#from decouple import config
 
 engine = pyttsx3.init('sapi5')
 voices = engine.getProperty('voices')
