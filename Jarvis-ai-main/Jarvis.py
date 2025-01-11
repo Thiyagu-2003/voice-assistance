@@ -614,7 +614,6 @@ class MainThread(QtCore.QThread):
                 sys.exit()
 
 
-
 # Main Class for GUI
 class Main(QMainWindow):
     def __init__(self):
@@ -623,6 +622,10 @@ class Main(QMainWindow):
         self.ui.setupUi(self)
         self.ui.pushButton.clicked.connect(self.startTask)
         self.ui.pushButton_2.clicked.connect(self.close)
+        self.ui.toggle_button.clicked.connect(self.toggle_theme) # Connect toggle button
+
+        self.is_dark_mode = True #setting the initial value of dark mode
+        self.ui.update_theme(self.is_dark_mode) #calling update theme for initial ui
 
     def __del__(self):
         sys.stdout = sys.__stdout__
@@ -649,6 +652,14 @@ class Main(QMainWindow):
         label_date = current_date.toString(Qt.ISODate)
         self.ui.textBrowser.setText(label_date)
         self.ui.textBrowser_2.setText(label_time)
+
+    def toggle_theme(self):
+        self.is_dark_mode = not self.is_dark_mode
+        if self.is_dark_mode:
+            self.ui.toggle_button.setText("Dark Mode")
+        else:
+            self.ui.toggle_button.setText("Light Mode")
+        self.ui.update_theme(self.is_dark_mode)
 
 
 startExecution = MainThread()
