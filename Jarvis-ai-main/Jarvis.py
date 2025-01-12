@@ -44,6 +44,9 @@ import threading    # new
 import psutil           # new
 import imdb
 from Features import send_email
+import sys
+# from PyQt5.QtWidgets import QApplication
+# from jarvisUi import MainApp  # Import MainApp from jarvisUI
 
 
 
@@ -615,6 +618,17 @@ class MainThread(QtCore.QThread):
 
 
 # Main Class for GUI
+# def main():
+#     app = QApplication(sys.argv)
+#     window = MainApp()  # Create an instance of the MainApp
+#     window.show()       # Display the main application window
+#     sys.exit(app.exec_())  # Execute the application
+
+# if __name__ == "__main__":
+#     main()
+
+
+# Main Class for GUI
 class Main(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -622,10 +636,6 @@ class Main(QMainWindow):
         self.ui.setupUi(self)
         self.ui.pushButton.clicked.connect(self.startTask)
         self.ui.pushButton_2.clicked.connect(self.close)
-        self.ui.toggle_button.clicked.connect(self.toggle_theme) # Connect toggle button
-
-        self.is_dark_mode = True #setting the initial value of dark mode
-        self.ui.update_theme(self.is_dark_mode) #calling update theme for initial ui
 
     def __del__(self):
         sys.stdout = sys.__stdout__
@@ -652,14 +662,6 @@ class Main(QMainWindow):
         label_date = current_date.toString(Qt.ISODate)
         self.ui.textBrowser.setText(label_date)
         self.ui.textBrowser_2.setText(label_time)
-
-    def toggle_theme(self):
-        self.is_dark_mode = not self.is_dark_mode
-        if self.is_dark_mode:
-            self.ui.toggle_button.setText("Dark Mode")
-        else:
-            self.ui.toggle_button.setText("Light Mode")
-        self.ui.update_theme(self.is_dark_mode)
 
 
 startExecution = MainThread()
