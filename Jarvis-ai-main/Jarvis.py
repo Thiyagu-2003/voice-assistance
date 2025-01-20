@@ -618,17 +618,6 @@ class MainThread(QtCore.QThread):
 
 
 # Main Class for GUI
-# def main():
-#     app = QApplication(sys.argv)
-#     window = MainApp()  # Create an instance of the MainApp
-#     window.show()       # Display the main application window
-#     sys.exit(app.exec_())  # Execute the application
-
-# if __name__ == "__main__":
-#     main()
-
-
-# Main Class for GUI
 class Main(QMainWindow):
     def __init__(self):
         super().__init__()
