@@ -447,8 +447,8 @@ class MainThread(QtCore.QThread):
                 speak('How may i help You?')
 
     
-            elif any(keyword in self.query for keyword in ['turn on bluetooth','turn on bluetooth','bluetooth','increase brigntness', 'decrease brigntness',
-                                                             'night light', 'increase volume', 'decrease volume', 'turn on night light',
+            elif any(keyword in self.query for keyword in ['turn on bluetooth','turn off bluetooth','bluetooth','increase brigntness', 'decrease brigntness',
+                                                             'night light', 'increase volume', 'decrease volume', 'turn on night light','turn on aeroplance mode','turn off aeroplance mode',
                                                            'turn on night light', 'mute system volume','brightness','no sound','sound','check volume level','check current volume level',
                                                             'unmute system volume','maximum volume','set volume to','check brightness level','set brightness to']):
                 process_command(self.query)             # working
