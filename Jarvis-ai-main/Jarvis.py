@@ -671,3 +671,6 @@ app = QApplication(sys.argv)
 jarvis = Main()
 jarvis.show()
 exit(app.exec_())
+
+
+
