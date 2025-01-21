@@ -158,26 +158,46 @@ def process_command(command):
     """Process the command to control features."""
     if "bluetooth" in command:
         if "turn on" in command:
+            print("Turning on bluetooth")
+            speak("Turning on bluetooth")
             toggle_bluetooth()
+
         elif "turn off" in command:
+            print("Turning off bluetooth")
+            speak("Turning off bluetooth")
             toggle_bluetooth()  # Toggle logic can handle this internally
 
     elif "wifi" in command:
         if "turn on" in command:
+            print("Turning on wifi")
+            speak("Turning on wifi")
             toggle_wifi()
+
         elif "turn off" in command:
+            print("Turning off wifi")
+            speak("Turning off wifi")
             toggle_wifi()
 
     elif "night light" in command:
         if "turn on" in command:
+            print("Turning on night light")
+            speak("Turning on night light")
             toggle_night_light()
+
         elif "turn off" in command:
+            print("Turning off night light")
+            speak("Turning off night light")
             toggle_night_light()
     
     elif "airplane mode" in command:
         if "turn on" in command:
+            print("Turning on airplane mode")
+            speak("Turning on airplane mode")
             toggle_airplane_mode()
+
         elif "turn off" in command:
+            print("Turning off airplane mode")
+            speak("Turning off airplane mode")
             toggle_airplane_mode()
 
     elif "brightness" in command:
