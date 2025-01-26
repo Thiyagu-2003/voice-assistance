@@ -79,3 +79,72 @@ if __name__ == "__main__":
     ui.setupUi(jarvisUi)
     jarvisUi.show()
     sys.exit(app.exec_())
+
+
+
+# # new design for buttons and frames not working
+
+# from PyQt5 import QtCore, QtGui, QtWidgets
+
+# class Ui_jarvisUi(object):
+#     def setupUi(self, jarvisUi):
+#         jarvisUi.setObjectName("jarvisUi")
+#         jarvisUi.resize(984, 572)
+#         self.centralwidget = QtWidgets.QWidget(jarvisUi)
+#         self.centralwidget.setObjectName("centralwidget")
+
+#         # Main background label
+#         self.label = QtWidgets.QLabel(self.centralwidget)
+#         self.label.setGeometry(QtCore.QRect(0, 0, 984, 572))
+#         self.label.setStyleSheet("background-color: rgb(0, 0, 0);")
+#         self.label.setText("")
+#         self.label.setObjectName("label")
+
+#         # Top-left frame
+#         self.top_left_frame = QtWidgets.QFrame(self.centralwidget)
+#         self.top_left_frame.setGeometry(QtCore.QRect(50, 50, 300, 200))
+#         self.top_left_frame.setStyleSheet("background-color: rgb(30, 30, 30);")
+#         self.top_left_frame.setObjectName("top_left_frame")
+
+#         # Top-right frame
+#         self.top_right_frame = QtWidgets.QFrame(self.centralwidget)
+#         self.top_right_frame.setGeometry(QtCore.QRect(600, 50, 300, 200))
+#         self.top_right_frame.setStyleSheet("background-color: rgb(30, 30, 30);")
+#         self.top_right_frame.setObjectName("top_right_frame")
+
+#         # Bottom frame
+#         self.bottom_frame = QtWidgets.QFrame(self.centralwidget)
+#         self.bottom_frame.setGeometry(QtCore.QRect(200, 300, 600, 200))
+#         self.bottom_frame.setStyleSheet("background-color: rgb(30, 30, 30);")
+#         self.bottom_frame.setObjectName("bottom_frame")
+
+#         # Start Button
+#         self.start_button = QtWidgets.QPushButton(self.centralwidget)
+#         self.start_button.setGeometry(QtCore.QRect(750, 520, 100, 40))
+#         self.start_button.setStyleSheet("background-color: rgb(0, 200, 0); color: white; font-size: 16px; border-radius: 10px;")
+#         self.start_button.setText("Start")
+#         self.start_button.setObjectName("start_button")
+
+#         # Stop Button
+#         self.stop_button = QtWidgets.QPushButton(self.centralwidget)
+#         self.stop_button.setGeometry(QtCore.QRect(870, 520, 100, 40))
+#         self.stop_button.setStyleSheet("background-color: rgb(200, 0, 0); color: white; font-size: 16px; border-radius: 10px;")
+#         self.stop_button.setText("Stop")
+#         self.stop_button.setObjectName("stop_button")
+
+#         jarvisUi.setCentralWidget(self.centralwidget)
+#         self.retranslateUi(jarvisUi)
+#         QtCore.QMetaObject.connectSlotsByName(jarvisUi)
+
+#     def retranslateUi(self, jarvisUi):
+#         _translate = QtCore.QCoreApplication.translate
+#         jarvisUi.setWindowTitle(_translate("jarvisUi", "Jarvis UI"))
+
+# if __name__ == "__main__":
+#     import sys
+#     app = QtWidgets.QApplication(sys.argv)
+#     jarvisUi = QtWidgets.QMainWindow()
+#     ui = Ui_jarvisUi()
+#     ui.setupUi(jarvisUi)
+#     jarvisUi.show()
+#     sys.exit(app.exec_())
