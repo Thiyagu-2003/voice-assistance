@@ -213,19 +213,32 @@ class InfoDialog:
         instructions = """1. Getting Started:
    • Click the green 'Start' button to activate JARVIS
    • The system indicator will turn green when active
+   • Watch the center circle animate to confirm activation
 
 2. Navigation:
    • ⚙ (Settings): Configure system preferences
    • ℹ (Info): View this help guide
    • ✉ (Email): Open Gmail compose window
 
-3. System States:
+3. Status Indicators:
+   • Grey dot: System is inactive
+   • Green dot: System is active and running
+   • Time display: Shows current system time
+
+4. Email Function:
+   • Click the email icon to open Gmail
+   • A new compose window will open
+   • The default recipient will be pre-filled
+
+5. System States:
    • Inactive: Default state on startup
    • Active: System running with animations
+   • Processing: Shown by circle animation
 
-4. Tips:
+6. Tips:
    • Keep the window open to maintain activation
    • Check the status indicator for system state
+   • Use the email function for quick communication
 """
         text_frame = tk.Frame(self.dialog, bg='#1e1e1e')
         text_frame.pack(fill='both', expand=True, padx=20, pady=10)
