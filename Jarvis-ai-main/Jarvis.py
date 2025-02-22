@@ -93,7 +93,7 @@ active = True
 def sleep_mode():                                                    # working
     global active
     active = False
-    speak("I am going to sleep mode. Say 'Wake up Jarvis' to reactivate me.")
+    speak("I am going to sleep mode. Say 'Wake up nova' to reactivate me.")
 
 def wake_up_mode():                                            # working
     global active
@@ -264,7 +264,7 @@ class MainThread(QtCore.QThread):
         startup()
         wishMe()
         while True:
-            if not active:  # Check if JARVIS is in sleep mode                      # working
+            if not active:  # Check if NOVA is in sleep mode                      # working
                 self.query = self.takeCommand().lower()
                 if 'wake up' in self.query or 'wakeup' in self.query or 'activate wake up mode' in self.query:
                     wake_up_mode()
@@ -509,7 +509,7 @@ class MainThread(QtCore.QThread):
                 except:
                     speak(' Data not cached..')
 
-            elif 'sleep mode' in self.query or 'sleep jarvis' in self.query or 'activate sleep mode' in self.query:    #new    # working
+            elif 'sleep mode' in self.query or 'sleep nova' in self.query or 'activate sleep mode' in self.query:    #new    # working
                 sleep_mode()
 
             elif 'wake up' in self.query or 'wakeup' in self.query or 'activate wake up mode' in self.query:    #new    # working
