@@ -47,6 +47,7 @@ from Features import send_email
 import sys
 # from PyQt5.QtWidgets import QApplication
 # from jarvisUi import MainApp  # Import MainApp from jarvisUI
+from desktop_1 import InfoDialog,JarvisGUI
 
 
 

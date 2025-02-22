@@ -1223,6 +1223,8 @@ class JarvisGUI(QWidget):
         def speak_thread():
             for sentence in sentences:
                 self.speak(sentence)
+            self.launch_desktop_2()
+            
 
         threading.Thread(target=speak_thread, daemon=True).start()
         self.update_status_indicator("#28a745")
@@ -1235,6 +1237,12 @@ class JarvisGUI(QWidget):
     def open_gmail_compose(self):
         gmail_url = f"https://mail.google.com/mail/?view=cm&fs=1&to={urllib.parse.quote(self.recipient_email)}"
         webbrowser.open(gmail_url)
+
+    def launch_desktop_2(self):
+        desktop_2_path = os.path.abspath(r"D:\FINAL_YEAR_PROJECT\voice-assistance\Jarvis-ai-main\desktop_2.py")  # Replace with the actual file path
+        os.system(f'python "{desktop_2_path}"')  # Launch using file path
+        self.close()
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
