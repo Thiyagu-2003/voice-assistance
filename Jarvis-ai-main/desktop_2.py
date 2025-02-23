@@ -803,11 +803,12 @@ class JarvisOverlayGUI(QWidget):
             # Show the status icon (using the voice assistant GIF as an example)
             self.voice_assistant_gif.show()
             # Hide other parts of the full GUI
-            self.full_setting_outer_frame.hide()
-            self.search.hide()
-            self.nova_terminal_outerframe.hide()
+            #self.full_setting_outer_frame.hide()
+            #self.search.hide()
+            #self.nova_terminal_outerframe.hide()
             # Resize the window to show NOVA Online and the GIF
-            self.resize(181, 200)
+            self.resize(191, 291)
+
         else:
             # Hide the GIF altogether
             self.voice_assistant_gif.hide()
