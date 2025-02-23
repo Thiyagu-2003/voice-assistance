@@ -69,9 +69,26 @@ voice-assistance/
 ├── Jarvis.py              # Main launcher script
 ├── desktop_1.py           # Initial GUI with Start button
 ├── desktop_2.py           # Secondary functionality
-├── requirements.txt       # Project dependencies
+├── alarm.py               # Alarm feature module
+├── app_handler.py         # App handling utilities
+├── assignment_writer.py   # Assignment automation tool
+├── call-function.py       # Function call handler
+├── Features.py            # Additional voice assistant features
+├── game.py                # Game module
+├── internet_speed_test.py # Internet speed testing script
+├── jarvisUi.py            # GUI for Jarvis
+├── Nasa.py                # NASA-related features
+├── on_off.py              # System on/off control
+├── Requirements.txt       # Project dependencies
+├── scrool_system.py       # School system automation
+├── utils.py               # Utility functions
+├── Web_Open.py            # Web automation script
+├── WindowsAuto.py         # Windows automation tasks
+├── YT.py                  # YouTube functionalities
+├── NasalImages/           # NASA-related images and assets
 ├── README.md              # Project documentation
-└── assets/                # GIFs, icons, and media files
+└── Material/              # Additional materials or assets
+
 ```
 
 ## 🤝 Contributing
