@@ -120,15 +120,15 @@
 #         self.starting_gif_2.setPixmap(QPixmap("D:/Material_gui_jarvis/path.gif"))
 #         self.starting_gif_2.setScaledContents(True)
 
-#         self.starting_gif_3 = QLabel(self)
-#         self.starting_gif_3.setGeometry(QRect(0, 90, 181, 171))
-#         self.starting_gif_3.setPixmap(QPixmap("D:/Material_gui_jarvis/new.gif"))
-#         self.starting_gif_3.setScaledContents(True)
+#         self.speaking_gif = QLabel(self)
+#         self.speaking_gif.setGeometry(QRect(0, 90, 181, 171))
+#         self.speaking_gif.setPixmap(QPixmap("D:/Material_gui_jarvis/new.gif"))
+#         self.speaking_gif.setScaledContents(True)
 
-#         self.voice_assistant_gif = QLabel(self)
-#         self.voice_assistant_gif.setGeometry(QRect(0, 90, 181, 181))
-#         self.voice_assistant_gif.setPixmap(QPixmap("D:/Downloads/voice assistant.gif.gif"))
-#         self.voice_assistant_gif.setScaledContents(True)
+#         self.sleeping_gif = QLabel(self)
+#         self.sleeping_gif.setGeometry(QRect(0, 90, 181, 181))
+#         self.sleeping_gif.setPixmap(QPixmap("D:/Downloads/voice assistant.gif.gif"))
+#         self.sleeping_gif.setScaledContents(True)
 
 #         # Search Frame
 #         self.search = QFrame(self)
@@ -197,8 +197,8 @@
 #         gifs = [
 #             ("D:/Material_gui_jarvis/logo.gif", self.starting_gif),
 #             ("D:/Material_gui_jarvis/path.gif", self.starting_gif_2),
-#             ("D:/Material_gui_jarvis/new.gif", self.starting_gif_3),
-#             ("D:/Downloads/voice assistant.gif.gif", self.voice_assistant_gif)
+#             ("D:/Material_gui_jarvis/new.gif", self.speaking_gif),
+#             ("D:/Downloads/voice assistant.gif.gif", self.sleeping_gif)
 #         ]
         
 #         for gif_path, label in gifs:
@@ -371,15 +371,15 @@
 #         self.starting_gif_2.setPixmap(QPixmap("D:/Material_gui_jarvis/path.gif"))
 #         self.starting_gif_2.setScaledContents(True)
 
-#         self.starting_gif_3 = QLabel(self)
-#         self.starting_gif_3.setGeometry(QRect(0, 90, 181, 171))
-#         self.starting_gif_3.setPixmap(QPixmap("D:/Material_gui_jarvis/new.gif"))
-#         self.starting_gif_3.setScaledContents(True)
+#         self.speaking_gif = QLabel(self)
+#         self.speaking_gif.setGeometry(QRect(0, 90, 181, 171))
+#         self.speaking_gif.setPixmap(QPixmap("D:/Material_gui_jarvis/new.gif"))
+#         self.speaking_gif.setScaledContents(True)
 
-#         self.voice_assistant_gif = QLabel(self)
-#         self.voice_assistant_gif.setGeometry(QRect(0, 90, 181, 181))
-#         self.voice_assistant_gif.setPixmap(QPixmap("D:/Downloads/voice assistant.gif.gif"))
-#         self.voice_assistant_gif.setScaledContents(True)
+#         self.sleeping_gif = QLabel(self)
+#         self.sleeping_gif.setGeometry(QRect(0, 90, 181, 181))
+#         self.sleeping_gif.setPixmap(QPixmap("D:/Downloads/voice assistant.gif.gif"))
+#         self.sleeping_gif.setScaledContents(True)
 
 #         # Search Frame
 #         self.search = QFrame(self)
@@ -448,8 +448,8 @@
 #         gifs = [
 #             ("D:/Material_gui_jarvis/logo.gif", self.starting_gif),
 #             ("D:/Material_gui_jarvis/path.gif", self.starting_gif_2),
-#             ("D:/Material_gui_jarvis/new.gif", self.starting_gif_3),
-#             ("D:/Downloads/voice assistant.gif.gif", self.voice_assistant_gif)
+#             ("D:/Material_gui_jarvis/new.gif", self.speaking_gif),
+#             ("D:/Downloads/voice assistant.gif.gif", self.sleeping_gif)
 #         ]
         
 #         for gif_path, label in gifs:
@@ -637,25 +637,25 @@ class JarvisOverlayGUI(QWidget):
         self.mute_nova.setStyleSheet(self.show_status.styleSheet())
         
         # All GIF Labels
-        self.starting_gif = QLabel(self.main_container)
-        self.starting_gif.setGeometry(QRect(0, 100, 181, 171))
-        self.starting_gif.setPixmap(QPixmap("D:/Material_gui_jarvis/logo.gif"))
-        self.starting_gif.setScaledContents(True)
+        self.listening_gif = QLabel(self.main_container)
+        self.listening_gif.setGeometry(QRect(0, 100, 181, 171))
+        self.listening_gif.setPixmap(QPixmap("D:/Material_gui_jarvis/logo.gif"))
+        self.listening_gif.setScaledContents(True)
         
-        self.starting_gif_2 = QLabel(self.main_container)
-        self.starting_gif_2.setGeometry(QRect(0, 100, 181, 181))
-        self.starting_gif_2.setPixmap(QPixmap("D:/Material_gui_jarvis/path.gif"))
-        self.starting_gif_2.setScaledContents(True)
+        self.loading_gif = QLabel(self.main_container)
+        self.loading_gif.setGeometry(QRect(0, 100, 181, 181))
+        self.loading_gif.setPixmap(QPixmap("D:/Material_gui_jarvis/path.gif"))
+        self.loading_gif.setScaledContents(True)
         
-        self.starting_gif_3 = QLabel(self.main_container)
-        self.starting_gif_3.setGeometry(QRect(0, 90, 181, 171))
-        self.starting_gif_3.setPixmap(QPixmap("D:/Material_gui_jarvis/new.gif"))
-        self.starting_gif_3.setScaledContents(True)
+        self.speaking_gif = QLabel(self.main_container)
+        self.speaking_gif.setGeometry(QRect(0, 90, 181, 171))
+        self.speaking_gif.setPixmap(QPixmap("D:/Material_gui_jarvis/new.gif"))
+        self.speaking_gif.setScaledContents(True)
         
-        self.voice_assistant_gif = QLabel(self.main_container)
-        self.voice_assistant_gif.setGeometry(QRect(0, 90, 181, 181))
-        self.voice_assistant_gif.setPixmap(QPixmap("D:/Downloads/voice assistant.gif.gif"))
-        self.voice_assistant_gif.setScaledContents(True)
+        self.sleeping_gif = QLabel(self.main_container)
+        self.sleeping_gif.setGeometry(QRect(0, 90, 181, 181))
+        self.sleeping_gif.setPixmap(QPixmap("D:/Downloads/voice assistant.gif.gif"))
+        self.sleeping_gif.setScaledContents(True)
         
         # Search Frame
         self.search = QFrame(self.main_container)
@@ -763,10 +763,10 @@ class JarvisOverlayGUI(QWidget):
     def setup_gifs(self):
         # Setup actual GIF animations
         gifs = [
-            ("D:/Material_gui_jarvis/logo.gif", self.starting_gif),
-            ("D:/Material_gui_jarvis/path.gif", self.starting_gif_2),
-            ("D:/Material_gui_jarvis/new.gif", self.starting_gif_3),
-            ("D:/Downloads/voice assistant.gif.gif", self.voice_assistant_gif)
+            ("D:/Material_gui_jarvis/logo.gif", self.listening_gif),
+            ("D:/Material_gui_jarvis/path.gif", self.loading_gif),
+            ("D:/Material_gui_jarvis/new.gif", self.speaking_gif),
+            ("D:/Downloads/voice assistant.gif.gif", self.sleeping_gif)
         ]
         for gif_path, label in gifs:
             movie = QMovie(gif_path)
@@ -808,7 +808,7 @@ class JarvisOverlayGUI(QWidget):
 
         if self.show_status.isChecked():
             # Show the status icon (using the voice assistant GIF as an example)
-            self.voice_assistant_gif.show()
+            self.sleeping_gif.show()
             # Hide other parts of the full GUI
             #self.full_setting_outer_frame.hide()
             #self.search.hide()
@@ -818,7 +818,7 @@ class JarvisOverlayGUI(QWidget):
 
         else:
             # Hide the GIF altogether
-            self.voice_assistant_gif.hide()
+            self.sleeping_gif.hide()
             self.resize(181, 100)
         
         # Ensure NOVA_ONLINE is visible in minimized view
