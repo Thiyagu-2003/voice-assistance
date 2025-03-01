@@ -689,9 +689,16 @@ class JarvisOverlayGUI(QWidget):
         """)
         self.send_button.clicked.connect(self.perform_search)
         
+
         # Nova Terminal Frame
         self.nova_terminal_outerframe = QFrame(self.main_container)
         self.nova_terminal_outerframe.setGeometry(QRect(0, 290, 571, 331))
+        self.nova_terminal_outerframe.setStyleSheet("""
+            background-color: rgb(0, 0, 0);
+            border-color: rgb(255, 255, 255);
+            border-width: 2px;
+            border-style: solid;
+        """)
         self.nova_terminal_outerframe.setFrameShape(QFrame.Shape.StyledPanel)
         self.nova_terminal_outerframe.setFrameShadow(QFrame.Shadow.Raised)
         
