@@ -5,10 +5,9 @@ import urllib.parse
 import webbrowser
 from datetime import datetime
 from PyQt6.QtWidgets import (
-    QApplication, QWidget, QLabel, QPushButton, QVBoxLayout, QHBoxLayout, QTextEdit, QDialog,
-    QScrollArea, QFrame
+    QApplication, QWidget, QLabel, QPushButton, QVBoxLayout, QHBoxLayout, QTextEdit, QDialog
 )
-from PyQt6.QtGui import QPixmap, QMovie, QFont
+from PyQt6.QtGui import QPixmap, QMovie, QFont, QIcon
 from PyQt6.QtCore import Qt, QTimer
 import pyttsx3
 
@@ -43,9 +42,13 @@ class InfoDialog(QDialog):
 class JarvisGUI(QWidget):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("NOVA ONLINE")
+        self.setWindowTitle("Voice Assistant NOVA")
         self.resize(1000, 700)
         self.setStyleSheet("background-color: black; color: white;")
+        
+        # Set the window icon
+        icon_path = r"D:\FINAL_YEAR_PROJECT\voice-assistance\Jarvis-ai-main\Material\Nova Logo.ico"
+        self.setWindowIcon(QIcon(icon_path))
 
         self.recipient_email = "example@gmail.com"
         self.engine = pyttsx3.init()
@@ -74,6 +77,7 @@ class JarvisGUI(QWidget):
         # Icons
         icons_layout = QHBoxLayout()
         button_style = "background-color: #28a745; color: white; font-size: 16px; padding: 10px; border-radius: 5px;"
+
         self.info_btn = QPushButton("ℹ")
         self.info_btn.setFixedSize(40, 40)
         self.info_btn.setStyleSheet(button_style)
@@ -97,7 +101,7 @@ class JarvisGUI(QWidget):
 
         # Animation
         self.animation_label = QLabel()
-        self.gif_path = r"D:\\Material_gui_jarvis\\logo.gif"
+        self.gif_path = r"D:\Material_gui_jarvis\logo.gif"
         if os.path.exists(self.gif_path):
             self.movie = QMovie(self.gif_path)
             self.animation_label.setMovie(self.movie)
@@ -161,7 +165,6 @@ class JarvisGUI(QWidget):
                 self.speak(sentence)
             self.launch_desktop_2()
             
-
         threading.Thread(target=speak_thread, daemon=True).start()
         self.update_status_indicator("#28a745")
         self.status_label.setText("System Activated")
@@ -175,10 +178,9 @@ class JarvisGUI(QWidget):
         webbrowser.open(gmail_url)
 
     def launch_desktop_2(self):
-        desktop_2_path = os.path.abspath(r"D:\FINAL_YEAR_PROJECT\voice-assistance\Jarvis-ai-main\desktop_2.py")  # Replace with the actual file path
-        os.system(f'python "{desktop_2_path}"')  # Launch using file path
+        desktop_2_path = os.path.abspath(r"D:\FINAL_YEAR_PROJECT\voice-assistance\Jarvis-ai-main\desktop_2.py")  
+        os.system(f'python "{desktop_2_path}"')  
         self.close()
-
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
