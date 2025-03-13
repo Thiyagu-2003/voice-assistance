@@ -78,9 +78,9 @@
 #             # Example contact mapping
 #             global contacts
 #             contacts = {
-#                 "lokesh clg": "+91 81227 68535",  # Replace with actual phone numbers
+#                 "lokesh clg": "+your number",  # Replace with actual phone numbers
 #                 #
-#                 # "john": "9876543210"
+#                 # "john": "0000000000"
 #             }
 #             for name in contacts.keys():
 #                 if name in command:
@@ -171,8 +171,8 @@
 #             # Example contact mapping
 #             global contacts
 #             contacts = {
-#                 "lokesh clg": "+91 81227 68535",  # Replace with actual phone numbers
-#                 #"john": "9876543210"
+#                 "lokesh clg": "+your number",  # Replace with actual phone numbers
+#                 #"john": "0000000000"
 #             }
 #             for name in contacts.keys():
 #                 if name in command:
@@ -285,8 +285,8 @@ def main():
             call_type = "video" if "video call" in command else "voice"
             global contacts
             contacts = {
-                "lokesh clg": "+91 81227 68535",  # Replace with actual phone numbers
-                #"john": "9876543210"
+                "lokesh clg": "+your number",  # Replace with actual phone numbers
+                #"john": "0000000000"
             }
             for name in contacts.keys():
                 if name in command:
@@ -296,8 +296,8 @@ def main():
         elif "send message" in command:
             #global contacts
             contacts = {
-                "lokesh clg": "+91 81227 68535",  # Replace with actual phone numbers
-                #"john": "9876543210"
+                "lokesh clg": "+your number",  # Replace with actual phone numbers
+                #"john": "0000000000"
             }
             for name in contacts.keys():
                 if name in command:
