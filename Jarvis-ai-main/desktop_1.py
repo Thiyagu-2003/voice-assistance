@@ -5,11 +5,17 @@ import urllib.parse
 import webbrowser
 from datetime import datetime
 from PyQt6.QtWidgets import (
-    QApplication, QWidget, QLabel, QPushButton, QVBoxLayout, QHBoxLayout, QTextEdit, QDialog
+    QApplication, QWidget, QLabel, QPushButton, QVBoxLayout, QHBoxLayout, QTextEdit, QDialog,
+    QSlider, QFormLayout
 )
 from PyQt6.QtGui import QPixmap, QMovie, QFont, QIcon
 from PyQt6.QtCore import Qt, QTimer
 import pyttsx3
+
+# Import pycaw for Windows system volume control
+from ctypes import cast, POINTER
+from comtypes import CLSCTX_ALL
+from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
 
 class InfoDialog(QDialog):
     def __init__(self, parent=None):
@@ -28,7 +34,7 @@ class InfoDialog(QDialog):
         instructions.setReadOnly(True)
         instructions.setStyleSheet("background-color: #2d2d2d; color: white; padding: 10px;")
         instructions.setText(
-            """1. Getting Started:\n   • Click the green 'Start' button to activate NOVA\n   • The system indicator will turn green when active\n   • Watch the center circle animate to confirm activation\n\n2. Navigation:\n   • ⚙ (Settings): Configure system preferences\n   • ℹ (Info): View this help guide\n   • ✉ (Email): Open Gmail compose window\n\n3. Status Indicators:\n   • Grey dot: System is inactive\n   • Green dot: System is active and running\n   • Time display: Shows current system time\n\n4. Email Function:\n   • Click the email icon to open Gmail\n   • A new compose window will open\n   • The default recipient will be pre-filled\n\n5. System States:\n   • Inactive: Default state on startup\n   • Active: System running with animations\n   • Processing: Shown by circle animation\n\n6. Tips:\n   • Keep the window open to maintain activation\n   • Check the status indicator for system state\n   • Use the email function for quick communication"""
+            """1. Getting Started:\n   • Click the green 'Start' button to activate NOVA\n   • The system indicator will turn green when active\n   • Watch the center circle animate to confirm activation\n\n2. Navigation:\n   • ⚙ (Settings): Configure system preferences\n   • ℹ (Info): View this help guide\n   • ✉ (Email): Open Gmail compose window\n\n3. Status Indicators:\n   • Grey dot: System is inactive\n   • Green dot: System is active and running\n   • Time display: Shows current system time\n\n4. Email Function:\n   • Click the email icon to open Gmail\n   • A new compose window will open\n   • The default recipient will be pre-filled\n\n5. System States:\n   • Inactive: Default state on startup\n   • Active: System running with animations\n   • Processing: Shown by circle animation\n\n6. Tips:\n   • Keep the window open to maintain activation\n   • Check the status indicator for system state\n   • Use the email function for quick communication\n   • Adjust system volume using the settings panel"""
         )
         layout.addWidget(instructions)
 
@@ -38,6 +44,94 @@ class InfoDialog(QDialog):
         layout.addWidget(close_btn)
 
         self.setLayout(layout)
+
+class SettingsDialog(QDialog):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.parent = parent
+        self.setWindowTitle("Settings")
+        self.setFixedSize(400, 250)
+        self.setStyleSheet("background-color: #1e1e1e; color: white;")
+
+        # Get the current system volume
+        self.devices = AudioUtilities.GetSpeakers()
+        self.interface = self.devices.Activate(
+            IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
+        self.volume_control = cast(self.interface, POINTER(IAudioEndpointVolume))
+        self.current_volume = self.volume_control.GetMasterVolumeLevelScalar() * 100
+
+        self.setup_ui()
+
+    def setup_ui(self):
+        layout = QVBoxLayout()
+        
+        # Title
+        title = QLabel("NOVA Settings")
+        title.setFont(QFont("Arial", 16, QFont.Weight.Bold))
+        title.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        layout.addWidget(title)
+        
+        # Form layout for settings
+        form_layout = QFormLayout()
+        
+        # Volume Control
+        volume_layout = QHBoxLayout()
+        self.volume_slider = QSlider(Qt.Orientation.Horizontal)
+        self.volume_slider.setRange(0, 100)
+        self.volume_slider.setValue(int(self.current_volume))
+        self.volume_slider.setStyleSheet("""
+            QSlider::groove:horizontal {
+                border: 1px solid #999999;
+                height: 8px;
+                background: #4d4d4d;
+                margin: 2px 0;
+                border-radius: 4px;
+            }
+            QSlider::handle:horizontal {
+                background: #28a745;
+                border: 1px solid #5c5c5c;
+                width: 18px;
+                margin: -2px 0;
+                border-radius: 9px;
+            }
+        """)
+        self.volume_slider.valueChanged.connect(self.update_volume_label)
+        self.volume_slider.valueChanged.connect(self.preview_volume)
+        volume_layout.addWidget(self.volume_slider)
+        
+        self.volume_value = QLabel(f"{int(self.current_volume)}%")
+        volume_layout.addWidget(self.volume_value)
+        
+        form_layout.addRow("System Volume:", volume_layout)
+        layout.addLayout(form_layout)
+        
+        # Save and Close buttons
+        buttons_layout = QHBoxLayout()
+        
+        save_btn = QPushButton("Save")
+        save_btn.setStyleSheet("background-color: #28a745; color: white;")
+        save_btn.clicked.connect(self.save_settings)
+        buttons_layout.addWidget(save_btn)
+        
+        close_btn = QPushButton("Cancel")
+        close_btn.setStyleSheet("background-color: #dc3545; color: white;")
+        close_btn.clicked.connect(self.close)
+        buttons_layout.addWidget(close_btn)
+        
+        layout.addLayout(buttons_layout)
+        self.setLayout(layout)
+    
+    def update_volume_label(self, value):
+        self.volume_value.setText(f"{value}%")
+    
+    def preview_volume(self, value):
+        # Update the system volume in real-time as the slider moves
+        volume_scalar = value / 100
+        self.volume_control.SetMasterVolumeLevelScalar(volume_scalar, None)
+    
+    def save_settings(self):
+        # The volume is already set in real-time, so we just need to close the dialog
+        self.close()
 
 class JarvisGUI(QWidget):
     def __init__(self):
@@ -129,21 +223,8 @@ class JarvisGUI(QWidget):
         dialog.exec()
     
     def show_settings(self):
-        settings_dialog = QDialog(self)
-        settings_dialog.setWindowTitle("Settings")
-        settings_dialog.setFixedSize(300, 200)
-        settings_dialog.setStyleSheet("background-color: #1e1e1e; color: white;")
-        layout = QVBoxLayout()
-        label = QLabel("Settings Menu (Placeholder)")
-        label.setFont(QFont("Arial", 12))
-        label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        layout.addWidget(label)
-        close_btn = QPushButton("Close")
-        close_btn.setStyleSheet("background-color: #28a745; color: white;")
-        close_btn.clicked.connect(settings_dialog.close)
-        layout.addWidget(close_btn)
-        settings_dialog.setLayout(layout)
-        settings_dialog.exec()
+        dialog = SettingsDialog(self)
+        dialog.exec()
 
     def speak(self, text):
         self.engine.say(text)
