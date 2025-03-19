@@ -34,6 +34,10 @@ from scrool_system import perform_scroll_action, scroll_up, scroll_down, scroll_
 from scrool_system import perform_browser_action
 from Web_Open import open_website
 from desktop_1 import InfoDialog, JarvisGUI
+from PyQt6.QtWidgets import QApplication
+from PyQt6 import QtCore
+from desktop_2 import JarvisOverlayGUI
+from temperature import get_weather_api
 
 # Initialize pyttsx3 engine
 engine = pyttsx3.init('sapi5')
@@ -44,19 +48,39 @@ engine.setProperty('rate', 175)
 # Global active state
 active = True
 
+
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+from desktop_2 import JarvisOverlayGUI
+# In main_2.py, add this to communicate with the GUI
+def update_assistant_state(state):
+    """Update the GUI to reflect the current state of the assistant"""
+    for widget in QApplication.topLevelWidgets():
+        if isinstance(widget, JarvisOverlayGUI):
+            QtCore.QMetaObject.invokeMethod(
+                widget, 
+                "update_gif_state", 
+                QtCore.Qt.ConnectionType.QueuedConnection,
+                QtCore.Q_ARG(str, state)
+            )
+
+
 def speak(audio):
     """Speak the given text."""
+    update_assistant_state("speaking")
     engine.say(audio)
     engine.runAndWait()
+    update_assistant_state("sleeping")  # Return to default state after speaking
 
 def listen_command():
     """Listen for a voice command from the user."""
+    update_assistant_state("listening")
     recognizer = sr.Recognizer()
     with sr.Microphone() as source:
         print("Listening...")
         recognizer.adjust_for_ambient_noise(source)
         audio = recognizer.listen(source, timeout=4)
     
+    update_assistant_state("loading")  # Switch to loading while processing speech
     try:
         command = recognizer.recognize_google(audio, language='en-in').lower()
         print(f"You said: {command}\n")
@@ -67,6 +91,35 @@ def listen_command():
     except sr.RequestError:
         speak("Sorry, there was an issue with the speech recognition service.")
         return ""
+    
+  # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  
+
+
+
+
+# def speak(audio):
+#     """Speak the given text."""
+#     engine.say(audio)
+#     engine.runAndWait()
+
+# def listen_command():
+#     """Listen for a voice command from the user."""
+#     recognizer = sr.Recognizer()
+#     with sr.Microphone() as source:
+#         print("Listening...")
+#         recognizer.adjust_for_ambient_noise(source)
+#         audio = recognizer.listen(source, timeout=4)
+    
+#     try:
+#         command = recognizer.recognize_google(audio, language='en-in').lower()
+#         print(f"You said: {command}\n")
+#         return command
+#     except sr.UnknownValueError:
+#         speak("Sorry, I couldn't understand that.")
+#         return ""
+#     except sr.RequestError:
+#         speak("Sorry, there was an issue with the speech recognition service.")
+#         return ""
 
 # Sleep and Wake-up functions
 def sleep_mode():
@@ -178,6 +231,28 @@ def handle_how_are_you():
     else:
         speak("Sorry to hear that. Soon, it will get better!")
 
+def Terminalprint(self,text):
+    self.Terminalext.appendPlainText(text)
+
+
+def process_weather_command(query):
+    """Process weather-related voice commands."""
+    # Check if it's a weather request
+    if "weather" in query:
+        # Extract location if provided
+        location = "Chennai"  # Default location
+        
+        # Try to find a location in the query
+        if "in" in query:
+            location_part = query.split("in", 1)[1].strip()
+            if location_part:
+                location = location_part
+        
+        # Get and speak weather information
+        get_weather_api(location)
+        return True
+    return False
+
 # Main Thread for Task Execution
 class MainThread(QtCore.QThread):
     def __init__(self):
@@ -219,16 +294,16 @@ class MainThread(QtCore.QThread):
             if 'tell me about' in query:
                 tell_me_about(query)
 
-            elif 'open' in query:
-                if 'instagram' in query:
-                    open_application('Instagram')
-                elif 'youtube' in query:
-                    open_application('YouTube')
-                elif 'facebook' in query:
-                    open_application('Facebook')
-                else:
-                    app_name = query.replace('open ', '').strip()
-                    open_application(app_name)
+            # elif 'open' in query:
+            #     if 'instagram' in query:
+            #         open_application('Instagram')
+            #     elif 'youtube' in query:
+            #         open_application('YouTube')
+            #     elif 'facebook' in query:
+            #         open_application('Facebook')
+            #     else:
+            #         app_name = query.replace('open ', '').strip()
+            #         open_application(app_name)
 
             elif 'close' in query:
                 if 'instagram' in query:
@@ -321,13 +396,17 @@ class MainThread(QtCore.QThread):
                     speak(f"Searching for {Place} on Google Maps.")
                     webbrowser.open(f"https://www.google.com/maps/search/{Place}")
 
-            elif 'current temperature' in query:
-                search = "temperature in my current location"
-                url = f"https://www.google.com/search?q={search}"
-                r = requests.get(url)
-                data = BeautifulSoup(r.text, "html.parser")
-                temp = data.find("div", class_="BNeawe").text
-                speak(f'The current temperature in your location is {temp}')
+            # elif 'current temperature' in query:
+            #     search = "temperature in my current location"
+            #     url = f"https://www.google.com/search?q={search}"
+            #     r = requests.get(url)
+            #     data = BeautifulSoup(r.text, "html.parser")
+            #     temp = data.find("div", class_="BNeawe").text
+            #     speak(f'The current temperature in your location is {temp}')
+
+
+            elif 'weather' in query or 'current temperature' in query or 'climate' in query:
+                process_weather_command(query)
 
             elif 'windows' in query or any(keyword in query for keyword in ['home screen', 'minimize', 'minimise', 'maximise', 'maximize','close the window','close the application',
                                                                               'show start', 'open setting','open search', 'screen shot', 'shutdown' , 'restart', 'log out','system sleep'
@@ -468,6 +547,10 @@ class MainThread(QtCore.QThread):
                     print("I have sent the email sir")
                 else:
                     speak("something went wrong sir")
+
+            elif 'open nova documentation' in query or 'open documentation' in query or 'open nova document' in query:
+                speak("Opening Nova documentation, sir.")
+                webbrowser.open("https://docs.google.com/document/d/1P9IIDUwryn3IXeyReSDqVwbukJOUIgazOn1htyIXzw8/edit?usp=sharing")
 
             elif 'shutup' in query or 'exit program' in query or 'exit' in query:
                 speak("Shutting down. Goodbye, sir.")

@@ -256,11 +256,10 @@ class JarvisOverlayGUI(QWidget):
         else:
             self.nova_terminal_outerframe.show()
             self.resize(575, 626)
-
-    def append_to_terminal(self, text):
-        """Append text to the terminal"""
-        self.TerminalText.appendPlainText(text)
     
+    def append_to_terminal(self, text):
+        """Add text to the terminal display"""
+        self.TerminalText.appendPlainText(text)
 
     def setup_gifs(self):
         # Setup actual GIF animations
@@ -373,9 +372,14 @@ class JarvisOverlayGUI(QWidget):
             self.sleeping_gif.show()
             self.TerminalText.appendPlainText(f"Unknown state: {state}. Defaulting to sleep mode...")
 
+# Global reference to store the GUI instance
+gui_instance = None
+
 def main():
     app = QApplication(sys.argv)
     window = JarvisOverlayGUI()
+    global gui_instance
+    gui_instance = window
     window.show()
     sys.exit(app.exec())
 
