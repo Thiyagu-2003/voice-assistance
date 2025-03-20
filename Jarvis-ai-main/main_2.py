@@ -26,7 +26,7 @@ from WindowsAuto import WindowsAuto
 from internet_speed_test import check_internet_speed
 from Features import My_Location, GoogleMaps, listen, read_news, send_email
 from on_off import process_command
-from app_handler import open_application, close_application, type_in_app, save_file, send_message
+from app_handler import type_in_app, save_file, send_message
 from game import games
 from Nasa import latest_space_news
 from scrool_system import perform_scroll_action, scroll_up, scroll_down, scroll_to_top, scroll_to_bottom
@@ -284,27 +284,6 @@ class MainThread(QtCore.QThread):
             if 'tell me about' in query:
                 tell_me_about(query)
 
-            # elif 'open' in query:
-            #     if 'instagram' in query:
-            #         open_application('Instagram')
-            #     elif 'youtube' in query:
-            #         open_application('YouTube')
-            #     elif 'facebook' in query:
-            #         open_application('Facebook')
-            #     else:
-            #         app_name = query.replace('open ', '').strip()
-            #         open_application(app_name)
-
-            elif 'close' in query:
-                if 'instagram' in query:
-                    close_application('Instagram')
-                elif 'youtube' in query:
-                    close_application('YouTube')
-                elif 'facebook' in query:
-                    close_application('Facebook')
-                else:
-                    app_name = query.replace('close ', '').strip()
-                    close_application(app_name)
 
             elif 'type' in query or 'start typing' in query:
                 speak("Please tell me what should I type. Say 'exit typing' to stop.")
@@ -415,11 +394,6 @@ class MainThread(QtCore.QThread):
                     print(f"Error occurred: {e}")
                     speak("Sorry, I couldn't fetch the location. Please try again.")
 
-            elif 'open app' in query:
-                speak("Which app would you like me to open?")
-                app_name = listen_command()
-                open_application(app_name)
-
             elif "hello" in query or "hey" in query:
                 speak('Hello sir, Good to see you')
                 speak('How may I help You?')
@@ -477,9 +451,6 @@ class MainThread(QtCore.QThread):
                                                      'go to dev tools','go to private window','next tab','previous tab']):
                 perform_browser_action(query)
 
-            elif 'get to website' in query or 'go to website' in query:
-                website_name = query.lower().replace("get to website", "").replace("go to website", "").strip()
-                open_website(website_name)
 
             elif "battery status" in query or "battery percentage" in query:
                 battery_percentage_query()
@@ -534,6 +505,40 @@ class MainThread(QtCore.QThread):
             elif 'open nova documentation' in query or 'open documentation' in query or 'open nova document' in query:
                 speak("Opening Nova documentation, sir.")
                 webbrowser.open("https://docs.google.com/document/d/1P9IIDUwryn3IXeyReSDqVwbukJOUIgazOn1htyIXzw8/edit?usp=sharing")
+
+
+            elif 'open' in query and len(query.replace('open', '').strip()) > 0:
+                from application_handler_new import open_website, open_system_app
+                item_name = query.lower().replace("open", "").strip()
+                
+                # Try to open as system app first
+                app_success = open_system_app(item_name)
+                
+                # If not successful as an app, try as website
+                if not app_success:
+                    website_success = open_website(item_name)
+                    
+                # If neither worked, inform the user
+                if not app_success and not website_success:
+                    speak(f"I couldn't find {item_name} as an app or website in my database.")
+
+            elif 'close' in query and len(query.replace('close', '').strip()) > 0:
+                from application_handler_new import close_application, close_website
+                item_name = query.lower().replace("close", "").strip()
+                
+                # Try to close as system app first
+                app_success = close_application(item_name)
+                
+                # If not successful as an app, try as website (browser tab)
+                if not app_success:
+                    website_success = close_website(item_name)
+                    
+                # If neither worked, inform the user
+                if not app_success and not website_success:
+                    speak(f"I couldn't find {item_name} as an open app or website tab.")
+
+
+
 
             elif 'shutup' in query or 'exit program' in query or 'exit' in query:
                 speak("Shutting down. Goodbye, sir.")
