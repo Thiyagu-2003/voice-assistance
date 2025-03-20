@@ -26,17 +26,16 @@ from WindowsAuto import WindowsAuto
 from internet_speed_test import check_internet_speed
 from Features import My_Location, GoogleMaps, listen, read_news, send_email
 from on_off import process_command
-from app_handler import type_in_app, save_file, send_message
 from game import games
 from Nasa import latest_space_news
 from scrool_system import perform_scroll_action, scroll_up, scroll_down, scroll_to_top, scroll_to_bottom
 from scrool_system import perform_browser_action
-from Web_Open import open_website
 from desktop_1 import InfoDialog, JarvisGUI
 from PyQt6.QtWidgets import QApplication
 from PyQt6 import QtCore
 from desktop_2 import JarvisOverlayGUI
 from temperature import get_weather_api
+from application_handler_new import open_website, open_system_app, close_application, close_website
 
 # Initialize pyttsx3 engine
 engine = pyttsx3.init('sapi5')
@@ -285,31 +284,31 @@ class MainThread(QtCore.QThread):
                 tell_me_about(query)
 
 
-            elif 'type' in query or 'start typing' in query:
-                speak("Please tell me what should I type. Say 'exit typing' to stop.")
-                while True:
-                    text_to_type = listen_command()
-                    if 'exit typing' in text_to_type or 'stop typing' in text_to_type:
-                        speak("Exiting typing mode.")
-                        break
-                    elif text_to_type:
-                        type_in_app(text_to_type)
-                    else:
-                        speak("I didn't catch that. Please try again.")
+            # elif 'type' in query or 'start typing' in query:
+            #     speak("Please tell me what should I type. Say 'exit typing' to stop.")
+            #     while True:
+            #         text_to_type = listen_command()
+            #         if 'exit typing' in text_to_type or 'stop typing' in text_to_type:
+            #             speak("Exiting typing mode.")
+            #             break
+            #         elif text_to_type:
+            #             type_in_app(text_to_type)
+            #         else:
+            #             speak("I didn't catch that. Please try again.")
 
-            elif 'save file' in query or 'save this file' in query:
-                speak("Saving the current file.")
-                save_file()
+            # elif 'save file' in query or 'save this file' in query:
+            #     speak("Saving the current file.")
+            #     save_file()
 
-            elif 'send message' in query or 'send a message' in query:
-                speak("Who should I send the message to?")
-                recipient = listen_command()
-                speak("What is the message?")
-                message = listen_command()
-                if recipient and message:
-                    send_message(recipient, message)
-                else:
-                    speak("I couldn't get the recipient or message. Please try again.")
+            # elif 'send message' in query or 'send a message' in query:
+            #     speak("Who should I send the message to?")
+            #     recipient = listen_command()
+            #     speak("What is the message?")
+            #     message = listen_command()
+            #     if recipient and message:
+            #         send_message(recipient, message)
+            #     else:
+            #         speak("I couldn't get the recipient or message. Please try again.")
 
             elif "calculate" in query or "what is" in query or "multiply" in query or "times" in query:
                 try:
