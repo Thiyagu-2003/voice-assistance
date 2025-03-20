@@ -61,3 +61,4 @@ wikipedia==1.4.0
 Wikipedia-API==0.8.1
 pyaudio==0.2.14
 screen-brightness-control
+pycountry==24.6.1

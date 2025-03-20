@@ -59,27 +59,44 @@ def takeCommand():
     return query
 
 
+import requests
+import pycountry  # pip install pycountry
+
 def My_Location():
+    speak("Fetching your location...")
 
-    speak("connecting to the cloud...")
-    ip_add = requests.get('https://api.ipify.org').text
+    try:
+        response = requests.get("https://ipinfo.io/json")
+        data = response.json()
 
-    url = 'https://get.geojs.io/v1/ip/geo/' +ip_add + '.json'
+        city = data.get("city", "Chennai")  # Default to Chennai
+        region = data.get("region", "Tamil Nadu")  # Default to Tamil Nadu
+        country_code = data.get("country", "IN")  # Default to IN (India)
 
-    geo_q = requests.get(url)
+        # Convert country code (e.g., "IN") to full name ("India")
+        country = pycountry.countries.get(alpha_2=country_code).name if pycountry.countries.get(alpha_2=country_code) else "India"
 
-    geo_d = geo_q.json()
+    except Exception as e:
+        print(f"Location detection failed: {e}")
+        city, region, country = "Chennai", "Tamil Nadu", "India"
 
-    state = geo_d['city']
-
-    country = geo_d['country']
-
-    print(f'{state , country}')
-
-    speak(f"Your current location is  {state , country}")
+    location = f"{city}, {region}, {country}"
+    print(location)
+    speak(f"Your current location is {location}")
+    return location
 
 
-    import speech_recognition as sr
+
+
+
+
+
+
+
+
+
+
+import speech_recognition as sr
 
 def listen():########################### new ############################
     """Captures user input through speech and returns it as text."""
@@ -139,13 +156,13 @@ def Dateconverter(Query):
 
     return str(Date)
     
-def Temp():
-        search = "temperature in my current location"
-        url = f"https://www.google.com/search?q={search}"
-        r = requests.get(url)
-        data = BeautifulSoup(r.text,"html.parser")
-        temperature = data.find("div",class_ = "BNeawe").text
-        speak(f"The Temperature in your current location Is {temperature} sir")
+# def Temp():
+#         search = "temperature in my current location"
+#         url = f"https://www.google.com/search?q={search}"
+#         r = requests.get(url)
+#         data = BeautifulSoup(r.text,"html.parser")
+#         temperature = data.find("div",class_ = "BNeawe").text
+#         speak(f"The Temperature in your current location Is {temperature} sir")
 
         # speak("Do I Have To Tell You Another Place Temperature ?")
         # next = takeCommand()

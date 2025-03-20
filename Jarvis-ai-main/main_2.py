@@ -19,12 +19,13 @@ import imdb
 from PyQt6.QtWidgets import QApplication
 from PyQt6 import QtCore
 from sympy import sympify, SympifyError
+import re
 
 # Import all the required modules and features
 from YT import YouTubeAuto
 from WindowsAuto import WindowsAuto
 from internet_speed_test import check_internet_speed
-from Features import My_Location, GoogleMaps, listen, Temp, read_news, send_email
+from Features import My_Location, GoogleMaps, listen, read_news, send_email
 from on_off import process_command
 from app_handler import open_application, close_application, type_in_app, save_file, send_message
 from game import games
@@ -90,7 +91,7 @@ def listen_command():
         return ""
     except sr.RequestError:
         speak("Sorry, there was an issue with the speech recognition service.")
-        return ""
+        return "" 
     
   # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  
 
@@ -184,15 +185,6 @@ def tell_me_about(query):
         speak("Sorry, an error occurred while searching Wikipedia.")
         print(f"Error: {e}")
 
-# Weather function
-def weather_command():
-    speak("Please tell me the location for weather information.")
-    location = listen_command()
-    if location:
-        get_weather(location)
-    else:
-        speak("I couldn't hear the location. Please try again.")
-
 # Battery status function
 def battery_percentage_query():
     battery = psutil.sensors_battery()
@@ -235,10 +227,10 @@ def Terminalprint(self,text):
     self.Terminalext.appendPlainText(text)
 
 
-def process_weather_command(query):
+def process_weather_command(query):         #working    #new
     """Process weather-related voice commands."""
     # Check if it's a weather request
-    if "weather" in query:
+    if "weather" in query or "temperature" in query or "climate" in query or "current temperature" in query or "forecast" in query:
         # Extract location if provided
         location = "Chennai"  # Default location
         
@@ -396,17 +388,10 @@ class MainThread(QtCore.QThread):
                     speak(f"Searching for {Place} on Google Maps.")
                     webbrowser.open(f"https://www.google.com/maps/search/{Place}")
 
-            # elif 'current temperature' in query:
-            #     search = "temperature in my current location"
-            #     url = f"https://www.google.com/search?q={search}"
-            #     r = requests.get(url)
-            #     data = BeautifulSoup(r.text, "html.parser")
-            #     temp = data.find("div", class_="BNeawe").text
-            #     speak(f'The current temperature in your location is {temp}')
-
-
-            elif 'weather' in query or 'current temperature' in query or 'climate' in query:
+            elif 'temperature' in query or 'weather' in query or 'climate' in query or 'current temperature' in query:
                 process_weather_command(query)
+
+
 
             elif 'windows' in query or any(keyword in query for keyword in ['home screen', 'minimize', 'minimise', 'maximise', 'maximize','close the window','close the application',
                                                                               'show start', 'open setting','open search', 'screen shot', 'shutdown' , 'restart', 'log out','system sleep'
@@ -416,7 +401,7 @@ class MainThread(QtCore.QThread):
             elif "internet speed" in query:
                 check_internet_speed()
 
-            elif 'my location' in query:
+            elif 'my location' in query or 'current location' in query or 'where am i' in query:
                 My_Location()
 
             elif 'show location' in query or 'find location' in query:
@@ -467,8 +452,8 @@ class MainThread(QtCore.QThread):
             elif 'wake up' in query or 'wakeup' in query or 'activate wake up mode' in query:
                 wake_up_mode()
 
-            elif "weather" in query or 'climate' in query:
-                weather_command()
+            # elif "weather" in query or 'climate' in query:
+            #     weather_command()
 
             elif 'screenshot' in query or 'screen shot' in query:
                 try:
