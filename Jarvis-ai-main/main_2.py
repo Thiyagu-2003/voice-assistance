@@ -35,7 +35,7 @@ from PyQt6.QtWidgets import QApplication
 from PyQt6 import QtCore
 from desktop_2 import JarvisOverlayGUI
 from temperature import get_weather_api
-from application_handler_new import open_website, open_system_app, close_application, close_website
+from application_handler_new import open_website, open_system_app, close_application, close_website,type_in_app,save_file
 
 # Initialize pyttsx3 engine
 engine = pyttsx3.init('sapi5')
@@ -283,22 +283,15 @@ class MainThread(QtCore.QThread):
             if 'tell me about' in query:
                 tell_me_about(query)
 
+            elif 'type' in query or 'start typing' in query or 'type something' in query or 'typing mode' in query:
+                type_in_app() 
 
-            # elif 'type' in query or 'start typing' in query:
-            #     speak("Please tell me what should I type. Say 'exit typing' to stop.")
-            #     while True:
-            #         text_to_type = listen_command()
-            #         if 'exit typing' in text_to_type or 'stop typing' in text_to_type:
-            #             speak("Exiting typing mode.")
-            #             break
-            #         elif text_to_type:
-            #             type_in_app(text_to_type)
-            #         else:
-            #             speak("I didn't catch that. Please try again.")
+            elif 'exit typing' in query or 'stop typing' in query or 'end typing' in query or 'quit typing' in query:
+                type_in_app()
 
-            # elif 'save file' in query or 'save this file' in query:
-            #     speak("Saving the current file.")
-            #     save_file()
+            elif 'save file' in query or 'save this file' in query or 'save the file' in query:
+                speak("Saving the current file.")
+                save_file()
 
             # elif 'send message' in query or 'send a message' in query:
             #     speak("Who should I send the message to?")

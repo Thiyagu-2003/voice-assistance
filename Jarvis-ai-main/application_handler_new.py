@@ -7,6 +7,7 @@ import time
 import platform
 import logging
 import speech_recognition as sr
+import pyperclip
 
 # Initialize logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -325,17 +326,26 @@ def close_website(website_name=None):
     return True
 
 def type_in_app():
-    """Handle typing in the currently open application."""
-    speak("I am ready to type. Please start speaking.")
+    """Handle typing in the currently open application with improved speed."""
+    speak("I am ready to type. Please start speaking. Say 'exit typing' or 'stop typing' to stop.")
+    
     while True:
         command = listen_command()
         if not command:
             continue
-        if "stop typing" in command:
+            
+        if "exit typing" in command or "stop typing" in command or "exit typing mode" in command:
             speak("Exiting typing mode.")
             break
         else:
-            pyautogui.write(command)
+            # Option 1: Using clipboard for speed (fastest)
+            pyperclip.copy(command)
+            pyautogui.hotkey('ctrl', 'v')  # or 'command', 'v' on Mac
+            
+            # Option 2: Using SendInput on Windows for faster native typing
+            # from ctypes import windll
+            # windll.user32.SendInput(text=command)
+            
             logging.info(f"Typed: {command}")
 
 def save_file():
