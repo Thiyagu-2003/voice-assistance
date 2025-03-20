@@ -131,48 +131,6 @@ def listen_command():
             speak("Sorry, I'm having trouble connecting. Please try again later.")
             return ""
 
-def get_weather(location):
-    """Fetch weather information for the given location."""
-    try:
-        speak(f"Fetching weather details for {location}.")
-        print(f"Fetching weather details for: {location}")
-
-        # Format the search query for Google
-        search_query = f"weather in {location}"
-        url = f"https://www.google.com/search?q={search_query}"
-
-        # Set headers to mimic a browser visit
-        headers = {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
-        }
-
-        # Send an HTTP request to the Google search URL
-        response = requests.get(url, headers=headers)
-        soup = BeautifulSoup(response.text, "html.parser")
-
-        # Extract the weather information
-        location_name = soup.find("div", class_="BNeawe tAd8D AP7Wnd").text
-        temperature = soup.find("div", class_="BNeawe iBp4i AP7Wnd").text
-        details = soup.find_all("div", class_="BNeawe tAd8D AP7Wnd")
-
-        # Additional weather details like condition and wind speed
-        weather_condition = details[1].text.split("\n")[0]  # e.g., "Sunny"
-        wind_and_humidity = details[1].text.split("\n")[1:]  # e.g., "Wind: 10 km/h"
-
-        # Format the result
-        result = (
-            f"The weather in {location_name} is as follows:\n"
-            f"Temperature: {temperature}.\n"
-            f"Condition: {weather_condition}.\n"
-            f"Details: {'; '.join(wind_and_humidity)}."
-        )
-        print(result)
-        speak(result)
-    except Exception as e:
-        error_message = "Sorry, I couldn't fetch the weather details. Please try again."
-        print(f"Error: {e}")
-        speak(error_message)
-
         
 # #*******************************************************************************************************
 

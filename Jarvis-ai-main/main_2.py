@@ -20,7 +20,6 @@ from PyQt6.QtWidgets import QApplication
 from PyQt6 import QtCore
 from sympy import sympify, SympifyError
 import re
-
 # Import all the required modules and features
 from YT import YouTubeAuto
 from WindowsAuto import WindowsAuto
@@ -29,7 +28,6 @@ from Features import My_Location, GoogleMaps, listen, read_news, send_email
 from on_off import process_command
 from app_handler import open_application, close_application, type_in_app, save_file, send_message
 from game import games
-from utils import get_weather
 from Nasa import latest_space_news
 from scrool_system import perform_scroll_action, scroll_up, scroll_down, scroll_to_top, scroll_to_bottom
 from scrool_system import perform_browser_action
@@ -515,7 +513,7 @@ class MainThread(QtCore.QThread):
                 speak("thiyagu")
 
             elif "what are you" in query:
-                speak('Hello sir, I am your personalized voice assistant, also known as Jarvis.')
+                speak('Hello sir, I am your personalized voice assistant, also known as Nova.')
 
             elif "what are the task's you can perform" in query:
                 speak('google search, play videos on youtube, search your location, check the current temperature, check your ip address, check your Wi-fi speed, provide you news from NASA, calculate, search the map, wikipedia search, and many more')
