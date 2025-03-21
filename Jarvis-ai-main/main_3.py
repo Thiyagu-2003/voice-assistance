@@ -2274,13 +2274,11 @@ from WindowsAuto import WindowsAuto
 from internet_speed_test import check_internet_speed
 from Features import My_Location, GoogleMaps, listen, Temp, read_news, send_email
 from on_off import process_command
-from app_handler import open_application, close_application, type_in_app, save_file, send_message
 from game import games
 from utils import get_weather
 from Nasa import latest_space_news
 from scrool_system import perform_scroll_action, scroll_up, scroll_down, scroll_to_top, scroll_to_bottom
 from scrool_system import perform_browser_action
-from Web_Open import open_website
 from desktop_1 import InfoDialog, JarvisGUI
 
 # Initialize pyttsx3 engine
@@ -2487,54 +2485,6 @@ class MainThread(QtCore.QThread):
             
             if 'tell me about' in query:
                 tell_me_about(query, language=current_language)
-
-            elif 'open' in query:
-                if 'instagram' in query:
-                    open_application('Instagram')
-                elif 'youtube' in query:
-                    open_application('YouTube')
-                elif 'facebook' in query:
-                    open_application('Facebook')
-                else:
-                    app_name = query.replace('open ', '').strip()
-                    open_application(app_name)
-
-            elif 'close' in query:
-                if 'instagram' in query:
-                    close_application('Instagram')
-                elif 'youtube' in query:
-                    close_application('YouTube')
-                elif 'facebook' in query:
-                    close_application('Facebook')
-                else:
-                    app_name = query.replace('close ', '').strip()
-                    close_application(app_name)
-
-            elif 'type' in query or 'start typing' in query:
-                speak("Please tell me what should I type. Say 'exit typing' to stop.", language=current_language)
-                while True:
-                    text_to_type = listen_command(language=current_language)
-                    if 'exit typing' in text_to_type or 'stop typing' in text_to_type:
-                        speak("Exiting typing mode.", language=current_language)
-                        break
-                    elif text_to_type:
-                        type_in_app(text_to_type)
-                    else:
-                        speak("I didn't catch that. Please try again.", language=current_language)
-
-            elif 'save file' in query or 'save this file' in query:
-                speak("Saving the current file.", language=current_language)
-                save_file()
-
-            elif 'send message' in query or 'send a message' in query:
-                speak("Who should I send the message to?", language=current_language)
-                recipient = listen_command(language=current_language)
-                speak("What is the message?", language=current_language)
-                message = listen_command(language=current_language)
-                if recipient and message:
-                    send_message(recipient, message)
-                else:
-                    speak("I couldn't get the recipient or message. Please try again.", language=current_language)
 
             elif "calculate" in query or "what is" in query or "multiply" in query or "times" in query:
                 try:
