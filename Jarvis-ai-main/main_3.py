@@ -2572,10 +2572,7 @@ class MainThread(QtCore.QThread):
                     print(f"Error occurred: {e}")
                     speak("Sorry, I couldn't fetch the location. Please try again.", language=current_language)
 
-            elif 'open app' in query:
-                speak("Which app would you like me to open?", language=current_language)
-                app_name = listen_command(language=current_language)
-                open_application(app_name)
+          
 
             elif "hello" in query or "hey" in query:
                 speak('Hello sir, Good to see you', language=current_language)
@@ -2633,10 +2630,6 @@ class MainThread(QtCore.QThread):
                                                      'go back', 'go forward','open dev tools','toggle full screen','open private window'
                                                      'go to dev tools','go to private window','next tab','previous tab']):
                 perform_browser_action(query)
-
-            elif 'get to website' in query or 'go to website' in query:
-                website_name = query.lower().replace("get to website", "").replace("go to website", "").strip()
-                open_website(website_name)
 
             elif "battery status" in query or "battery percentage" in query:
                 battery_percentage_query(language=current_language)
