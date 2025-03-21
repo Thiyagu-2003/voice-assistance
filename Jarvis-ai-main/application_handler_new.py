@@ -381,7 +381,7 @@ def send_message():
             message_content += command + " "
             logging.info(f"Added to message: {command}")
     
-def process_command(command):
+def process_app_command(command):
     """Process the user's voice command."""
     if not command:
         return True
@@ -408,6 +408,36 @@ def process_command(command):
         for app in system_apps.keys():
             if app in command:
                 return open_system_app(app)
+    
+    # Nova documentation command
+    elif 'open nova documentation' in command or 'open documentation' in command or 'open nova document' in command:
+        speak("Opening Nova documentation, sir.")
+        webbrowser.open("https://docs.google.com/document/d/1P9IIDUwryn3IXeyReSDqVwbukJOUIgazOn1htyIXzw8/edit?usp=sharing")
+        logging.info("Opening Nova documentation")
+        return True
+
+    # Camera commands
+    elif 'open camera' in command:
+        speak("Opening camera.")
+        if platform.system() == 'Windows':
+            os.system("start microsoft.windows.camera:")
+        elif platform.system() == 'Darwin':  # macOS
+            os.system("open -a Photo\\ Booth")
+        elif platform.system() == 'Linux':
+            os.system("cheese")
+        logging.info("Opening camera application")
+        return True
+
+    elif 'close camera' in command:
+        speak("Closing camera.")
+        if platform.system() == 'Windows':
+            close_application("camera")
+        elif platform.system() == 'Darwin':  # macOS
+            close_application("Photo Booth")
+        elif platform.system() == 'Linux':
+            close_application("cheese")
+        logging.info("Closing camera application")
+        return True
     
     # Generic open commands
     elif command.startswith("open "):
@@ -471,6 +501,9 @@ def display_help():
     - 'Close tab' or 'Close current website': Closes the current browser tab
     - 'Open [app name]': Opens a system application
     - 'Close [app name]': Closes a running application
+    - 'Open nova documentation' or 'Open documentation': Opens the Nova document
+    - 'Open camera': Opens the camera application
+    - 'Close camera': Closes the camera application
     - 'Start typing': Enters typing mode for the current application
     - 'Save file': Initiates the save file procedure
     - 'Compose message': Enters message composition mode
@@ -484,6 +517,9 @@ def display_help():
     speak("Say close tab to close the current browser tab")
     speak("Say open followed by an application name to open it")
     speak("Say close followed by an application name to close it")
+    speak("Say open nova documentation to access the Nova document")
+    speak("Say open camera to start your camera")
+    speak("Say close camera to turn off your camera")
     speak("Say start typing to enter text in the current application")
     speak("Say save file to save your work")
     speak("Say compose message to write and send a message")
@@ -501,7 +537,7 @@ def main():
     running = True
     while running:
         command = listen_command()
-        running = process_command(command)
+        running = process_app_command(command)
 
 if __name__ == "__main__":
     main()

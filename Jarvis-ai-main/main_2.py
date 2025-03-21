@@ -20,6 +20,8 @@ from PyQt6.QtWidgets import QApplication
 from PyQt6 import QtCore
 from sympy import sympify, SympifyError
 import re
+import platform
+import logging
 # Import all the required modules and features
 from YT import YouTubeAuto
 from WindowsAuto import WindowsAuto
@@ -35,7 +37,9 @@ from PyQt6.QtWidgets import QApplication
 from PyQt6 import QtCore
 from desktop_2 import JarvisOverlayGUI
 from temperature import get_weather_api
-from application_handler_new import open_website, open_system_app, close_application, close_website,type_in_app,save_file
+from application_handler_new import open_website, open_system_app, close_application, close_website,type_in_app,save_file,process_app_command
+from gemini import query_google_gemini
+#from gemini import query_gemini_image, query_gemini_code, query_gemini_text,process_query
 
 # Initialize pyttsx3 engine
 engine = pyttsx3.init('sapi5')
@@ -90,6 +94,11 @@ def listen_command():
         speak("Sorry, there was an issue with the speech recognition service.")
         return "" 
     
+def process_app_command(command):
+    """Process the user's voice command."""
+    if not command:
+        return True
+    command = command.lower().strip()
   # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  
 
 
@@ -118,6 +127,8 @@ def listen_command():
 #     except sr.RequestError:
 #         speak("Sorry, there was an issue with the speech recognition service.")
 #         return ""
+
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 # Sleep and Wake-up functions
 def sleep_mode():
@@ -270,7 +281,7 @@ class MainThread(QtCore.QThread):
         global active
         startup()
         wishMe()
-        
+    
         while True:
             if not active:  # Check if NOVA is in sleep mode
                 query = self.takeCommand()
@@ -280,30 +291,23 @@ class MainThread(QtCore.QThread):
 
             query = self.takeCommand()
             
-            if 'tell me about' in query:
+            # Convert to lowercase for easier command processing
+            query_lower = query.lower()
+            
+            if 'tell me about' in query_lower:
                 tell_me_about(query)
 
-            elif 'type' in query or 'start typing' in query or 'type something' in query or 'typing mode' in query:
+            elif 'type' in query_lower or 'start typing' in query_lower or 'type something' in query_lower or 'typing mode' in query_lower:
                 type_in_app() 
 
-            elif 'exit typing' in query or 'stop typing' in query or 'end typing' in query or 'quit typing' in query:
+            elif 'exit typing' in query_lower or 'stop typing' in query_lower or 'end typing' in query_lower or 'quit typing' in query_lower:
                 type_in_app()
 
-            elif 'save file' in query or 'save this file' in query or 'save the file' in query:
+            elif 'save file' in query_lower or 'save this file' in query_lower or 'save the file' in query_lower:
                 speak("Saving the current file.")
                 save_file()
 
-            # elif 'send message' in query or 'send a message' in query:
-            #     speak("Who should I send the message to?")
-            #     recipient = listen_command()
-            #     speak("What is the message?")
-            #     message = listen_command()
-            #     if recipient and message:
-            #         send_message(recipient, message)
-            #     else:
-            #         speak("I couldn't get the recipient or message. Please try again.")
-
-            elif "calculate" in query or "what is" in query or "multiply" in query or "times" in query:
+            elif "calculate" in query_lower or "what is" in query_lower or "multiply" in query_lower or "times" in query_lower:
                 try:
                     question = query.replace("calculate", "").replace("what is", "").replace("multiply", "").replace("times", "").strip()
                     expression = sympify(question)
@@ -320,36 +324,36 @@ class MainThread(QtCore.QThread):
                 except Exception as e:
                     speak("An error occurred while performing the calculation. Please try again.")
 
-            elif 'play' in query:
+            elif 'play' in query_lower:
                 speak('Surfing the browser.... Hold on sir')
                 query = query.replace('play', '')
                 speak('Playing' + query)
                 speak('Enjoy the music')
                 pywhatkit.playonyt(query)
 
-            elif any(keyword in query for keyword in ['pause','pass','unpass','resume', 'un pass','unpause','un pause',
+            elif any(keyword in query_lower for keyword in ['pause','pass','unpass','resume', 'un pass','unpause','un pause',
                                                     'mute', 'unmute', 'next', 'previous', 'full screen','volume down','volumedown',
                                                     'back', 'skip', 'fullscreen', 'film screen','volume up','volumeup',
                                                     'filmscreen', 'decrease youtube volume', 'increase youtube volume', 'max volume']):
                 YouTubeAuto(query)
 
-            elif 'joke' in query:
+            elif 'joke' in query_lower:
                 speak(pyjokes.get_joke())
 
-            elif 'ip address' in query:
+            elif 'ip address' in query_lower:
                 ip = get("https://api.ipify.org").text
                 speak(f'Your current IP address is {ip}')
 
-            elif 'time' in query or 'date' in query:
+            elif 'time' in query_lower or 'date' in query_lower:
                 now = datetime.datetime.now()
-                if 'time' in query:
+                if 'time' in query_lower:
                     current_time = now.strftime("%I:%M %p")
                     speak(f"The current time is {current_time}")
-                if 'date' in query:
+                if 'date' in query_lower:
                     current_date = now.strftime("%A, %B %d, %Y")
                     speak(f"Today's date is {current_date}")
 
-            elif 'where is' in query:
+            elif 'where is' in query_lower:
                 Place = query.replace('where is', '').replace('cortana', '').strip()
                 if not Place:
                     speak("I couldn't understand the location. Please try again.")
@@ -357,23 +361,21 @@ class MainThread(QtCore.QThread):
                     speak(f"Searching for {Place} on Google Maps.")
                     webbrowser.open(f"https://www.google.com/maps/search/{Place}")
 
-            elif 'temperature' in query or 'weather' in query or 'climate' in query or 'current temperature' in query:
+            elif 'temperature' in query_lower or 'weather' in query_lower or 'climate' in query_lower or 'current temperature' in query_lower:
                 process_weather_command(query)
 
-
-
-            elif 'windows' in query or any(keyword in query for keyword in ['home screen', 'minimize', 'minimise', 'maximise', 'maximize','close the window','close the application',
-                                                                              'show start', 'open setting','open search', 'screen shot', 'shutdown' , 'restart', 'log out','system sleep'
-                                                                              'take a screenshot' , 'restore windows','start recording', 'screenshot', 'stop recording']):
+            elif 'windows' in query_lower or any(keyword in query_lower for keyword in ['home screen', 'minimize', 'minimise', 'maximise', 'maximize','close the window','close the application',
+                                                                        'show start', 'open setting','open search', 'screen shot', 'shutdown' , 'restart', 'log out','system sleep'
+                                                                        'take a screenshot' , 'restore windows','start recording', 'screenshot', 'stop recording']):
                 WindowsAuto(query)
 
-            elif "internet speed" in query:
+            elif "internet speed" in query_lower:
                 check_internet_speed()
 
-            elif 'my location' in query or 'current location' in query or 'where am i' in query:
+            elif 'my location' in query_lower or 'current location' in query_lower or 'where am i' in query_lower:
                 My_Location()
 
-            elif 'show location' in query or 'find location' in query:
+            elif 'show location' in query_lower or 'find location' in query_lower:
                 try:
                     speak("Please tell me the name of the place.")
                     place = listen()
@@ -386,20 +388,20 @@ class MainThread(QtCore.QThread):
                     print(f"Error occurred: {e}")
                     speak("Sorry, I couldn't fetch the location. Please try again.")
 
-            elif "hello" in query or "hey" in query:
+            elif "hello" in query_lower or "hey" in query_lower:
                 speak('Hello sir, Good to see you')
                 speak('How may I help You?')
 
-            elif any(keyword in query for keyword in ['turn on bluetooth','turn off bluetooth','bluetooth','increase brigntness', 'decrease brigntness',
-                                                     'night light', 'increase volume', 'decrease volume', 'turn on night light','turn on aeroplance mode','turn off aeroplance mode',
-                                                     'turn on night light', 'mute system volume','brightness','no sound','sound','check volume level','check current volume level',
-                                                     'unmute system volume','maximum volume','set volume to','check brightness level','set brightness to']):
+            elif any(keyword in query_lower for keyword in ['turn on bluetooth','turn off bluetooth','bluetooth','increase brigntness', 'decrease brigntness',
+                                                    'night light', 'increase volume', 'decrease volume', 'turn on night light','turn on aeroplance mode','turn off aeroplance mode',
+                                                    'turn on night light', 'mute system volume','brightness','no sound','sound','check volume level','check current volume level',
+                                                    'unmute system volume','maximum volume','set volume to','check brightness level','set brightness to']):
                 process_command(query)
 
-            elif "game" in query:
+            elif "game" in query_lower:
                 games()
                 
-            elif 'search' in query:
+            elif 'search' in query_lower:
                 import wikipedia as googleScrap
                 query = query.replace('jarvis', '').replace('google search', '').replace('google', '').strip()
                 speak('Here are some results...')
@@ -410,50 +412,54 @@ class MainThread(QtCore.QThread):
                 except:
                     speak('Data not cached..')
 
-            elif 'sleep mode' in query or 'sleep nova' in query or 'activate sleep mode' in query:
+            elif 'sleep mode' in query_lower or 'sleep nova' in query_lower or 'activate sleep mode' in query_lower:
                 sleep_mode()
 
-            elif 'wake up' in query or 'wakeup' in query or 'activate wake up mode' in query:
+            elif 'wake up' in query_lower or 'wakeup' in query_lower or 'activate wake up mode' in query_lower:
                 wake_up_mode()
 
-            # elif "weather" in query or 'climate' in query:
-            #     weather_command()
+            # Convert query to lowercase for case-insensitive matching
+                query_lower = query.lower()
 
-            elif 'screenshot' in query or 'screen shot' in query:
+            # Check for all screenshot-related commands
+            elif any(phrase in query_lower for phrase in ["capture screen", "take a screenshot", "screenshot", "screen shot"]):
                 try:
                     import pyautogui
                     screenshot = pyautogui.screenshot()
-                    screenshot.save("screenshot.jpg")
-                    speak("Screenshot taken and saved as 'screenshot.jpg' in the current directory.")
+                    timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+                    filename = f"screenshot_{timestamp}.jpg"
+                    screenshot.save(filename)
+                    speak(f"Screenshot taken and saved")
+                    print(f"Screenshot saved as: {filename}")
                 except Exception as e:
                     speak(f"Failed to take a screenshot: {e}")
+                    print(f"Screenshot error: {e}")
 
-            elif 'read news' in query or 'current news' in query or 'news mode' in query:
+            elif 'read news' in query_lower or 'current news' in query_lower or 'news mode' in query_lower:
                 read_news()
 
-            elif 'space news' in query or 'nasa news' in query or 'astrological news' in query:
+            elif 'space news' in query_lower or 'nasa news' in query_lower or 'astrological news' in query_lower:
                 latest_space_news()
 
-            elif 'scroll up' in query or 'scroll down' in query or 'scroll to top' in query or 'scroll to bottom' in query:
+            elif 'scroll up' in query_lower or 'scroll down' in query_lower or 'scroll to top' in query_lower or 'scroll to bottom' in query_lower:
                 perform_scroll_action(query)
 
-            elif any(keyword in query for keyword in ['add new tab','close tab','zoom in','zoom out', 'refresh page','go to history', 'go to bookmarks',
-                                                     'switch to next tab', 'switch to previous tab', 'open history', 'open bookmarks',
-                                                     'go back', 'go forward','open dev tools','toggle full screen','open private window'
-                                                     'go to dev tools','go to private window','next tab','previous tab']):
+            elif any(keyword in query_lower for keyword in ['add new tab','close tab','zoom in','zoom out', 'refresh page','go to history', 'go to bookmarks',
+                                                    'switch to next tab', 'switch to previous tab', 'open history', 'open bookmarks',
+                                                    'go back', 'go forward','open dev tools','toggle full screen','open private window'
+                                                    'go to dev tools','go to private window','next tab','previous tab']):
                 perform_browser_action(query)
 
-
-            elif "battery status" in query or "battery percentage" in query:
+            elif "battery status" in query_lower or "battery percentage" in query_lower:
                 battery_percentage_query()
 
-            elif "running apps" in query or "list running apps" in query:
+            elif "running apps" in query_lower or "list running apps" in query_lower:
                 list_running_apps()
 
-            elif 'how are you' in query:
+            elif 'how are you' in query_lower:
                 handle_how_are_you()
 
-            elif 'movie' in query:
+            elif 'movie' in query_lower:
                 movies_db = imdb.IMDb()
                 speak("tell me the movie name:")
                 text = listen_command()
@@ -472,16 +478,16 @@ class MainThread(QtCore.QThread):
                     speak(f"{title} was released in {year} has imdb ratings of {rating}.the plot summary of movie is {plot}")
                     print(f"{title} was released in {year} has imdb ratings of {rating}. it has a cast of {cast[0:5]}.the plot summary of movie is {plot}")
 
-            elif 'how developed you' in query or 'who created you' in query or 'who is your master' in query:
+            elif 'how developed you' in query_lower or 'who created you' in query_lower or 'who is your master' in query_lower:
                 speak("thiyagu")
 
-            elif "what are you" in query:
+            elif "what are you" in query_lower:
                 speak('Hello sir, I am your personalized voice assistant, also known as Nova.')
 
-            elif "what are the task's you can perform" in query:
+            elif "what are the task's you can perform" in query_lower:
                 speak('google search, play videos on youtube, search your location, check the current temperature, check your ip address, check your Wi-fi speed, provide you news from NASA, calculate, search the map, wikipedia search, and many more')
 
-            elif 'send an email' in query or 'send a mail' in query:
+            elif 'send an email' in query_lower or 'send a mail' in query_lower:
                 speak("on what email address do you want to send sir? Please enter in terminal")
                 receiver_add = input("Email address:")
                 speak("what should be the subject sir?")
@@ -494,13 +500,29 @@ class MainThread(QtCore.QThread):
                 else:
                     speak("something went wrong sir")
 
-            elif 'open nova documentation' in query or 'open documentation' in query or 'open nova document' in query:
+            elif 'open nova documentation' in query_lower or 'open documentation' in query_lower or 'open nova document' in query_lower:
                 speak("Opening Nova documentation, sir.")
                 webbrowser.open("https://docs.google.com/document/d/1P9IIDUwryn3IXeyReSDqVwbukJOUIgazOn1htyIXzw8/edit?usp=sharing")
 
+            elif 'open camera' in query_lower:
+                speak("Opening camera.")
+                if platform.system() == 'Windows':
+                    os.system("start microsoft.windows.camera:")
+                elif platform.system() == 'Darwin':  # macOS
+                    os.system("open -a Photo\\ Booth")
+                elif platform.system() == 'Linux':
+                    os.system("cheese")
 
-            elif 'open' in query and len(query.replace('open', '').strip()) > 0:
-                from application_handler_new import open_website, open_system_app
+            elif 'close camera' in query_lower:
+                speak("Closing camera.")
+                if platform.system() == 'Windows':
+                    close_application("camera")
+                elif platform.system() == 'Darwin':  # macOS
+                    close_application("Photo Booth")
+                elif platform.system() == 'Linux':
+                    close_application("cheese")
+
+            elif 'open' in query_lower and len(query.replace('open', '').strip()) > 0:
                 item_name = query.lower().replace("open", "").strip()
                 
                 # Try to open as system app first
@@ -514,8 +536,7 @@ class MainThread(QtCore.QThread):
                 if not app_success and not website_success:
                     speak(f"I couldn't find {item_name} as an app or website in my database.")
 
-            elif 'close' in query and len(query.replace('close', '').strip()) > 0:
-                from application_handler_new import close_application, close_website
+            elif 'close' in query_lower and len(query.replace('close', '').strip()) > 0:
                 item_name = query.lower().replace("close", "").strip()
                 
                 # Try to close as system app first
@@ -528,13 +549,58 @@ class MainThread(QtCore.QThread):
                 # If neither worked, inform the user
                 if not app_success and not website_success:
                     speak(f"I couldn't find {item_name} as an open app or website tab.")
+                    
 
-
-
-
-            elif 'shutup' in query or 'exit program' in query or 'exit' in query:
+            elif 'shutup' in query_lower or 'exit program' in query_lower or 'exit' in query_lower:
                 speak("Shutting down. Goodbye, sir.")
                 sys.exit()
+
+            # # Image generation request handling
+            # elif any(phrase in query_lower for phrase in ["generate image", "create image", "draw", "picture of", "show me", "visualize"]):
+            #     speak("I'll generate that image for you, sir.")
+            #     result = process_query(query)
+            #     speak("Image has been generated and saved.")
+
+            # # Code generation request handling
+            # elif any(phrase in query_lower for phrase in ["write code", "generate code", "code for", "program", "function", "script", "class"]):
+            #     speak("I'll write that code for you, sir.")
+            #     result = process_query(query)
+            #     speak("Code has been generated and saved.")
+
+            # # Default to text response from Gemini for all other queries
+            # else:
+            #     speak("Let me process that for you.")
+            #     result = process_query(query)
+            #     # Extract just the text part without token info for speaking
+            #     if isinstance(result, str) and "\n\n(Tokens Used:" in result:
+            #         text_part = result.split("\n\n(Tokens Used:")[0]
+            #         speak(text_part)
+            #     else:
+            #         speak(result)
+            # else:
+            #     speak("I am not programmed to answer that. Let me check online...")
+            #     response = query_google_gemini(query)
+            #     speak(response)
+            #     print(response)
+
+
+            # else:
+            #     speak("I am not programmed to answer that. Let me check online...")
+            #     response = query_google_gemini(query)
+                
+            #     # Split the response into content and token info (if present)
+            #     if "\n\nTokens - " in response:
+            #         main_content, token_info = response.split("\n\nTokens - ", 1)
+            #         token_info = "Tokens - " + token_info
+            #     else:
+            #         main_content = response
+            #         token_info = ""
+                
+            #     # Only speak the main content
+            #     speak(main_content)
+                
+            #     # Print the full response including token info
+            #     print(response)
 
 # Modified JarvisApp class
 class JarvisApp:
