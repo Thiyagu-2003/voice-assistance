@@ -2801,12 +2801,42 @@ if __name__ == "__main__":
 
 
 
-        def terminalprint(self,text):
-            self.JarvisOverlayGUI.interaction_print_terminal.appendPlainText(text)
+        # def terminalprint(self,text):
+        #     self.JarvisOverlayGUI.interaction_print_terminal.appendPlainText(text)
 
-        def terminalprint(self,text):
-                self.terminaltext.appendPlainText(text)
+        # def terminalprint(self,text):
+        #         self.terminaltext.appendPlainText(text)
 
-        def updategifs(self):
-            if state == 'speaking':
-                self.
+        # def updategifs(self):
+        #     if state == 'speaking':
+        #         self.
+
+
+
+            # # Image generation request handling
+            # elif any(phrase in query_lower for phrase in ["generate image", "create image", "draw", "picture of", "show me", "visualize"]):
+            #     speak("I'll generate that image for you, sir.")
+            #     result = process_query(query)
+            #     speak("Image has been generated and saved.")
+
+            # # Code generation request handling
+            # elif any(phrase in query_lower for phrase in ["write code", "generate code", "code for", "program", "function", "script", "class"]):
+            #     speak("I'll write that code for you, sir.")
+            #     result = process_query(query)
+            #     speak("Code has been generated and saved.")
+
+            # # Default to text response from Gemini for all other queries
+            # else:
+            #     speak("Let me process that for you.")
+            #     result = process_query(query)
+            #     # Extract just the text part without token info for speaking
+            #     if isinstance(result, str) and "\n\n(Tokens Used:" in result:
+            #         text_part = result.split("\n\n(Tokens Used:")[0]
+            #         speak(text_part)
+            #     else:
+            #         speak(result)
+            # else:
+            #     speak("I am not programmed to answer that. Let me check online...")
+            #     response = query_google_gemini(query)
+            #     speak(response)
+            #     print(response)

@@ -418,11 +418,11 @@ class MainThread(QtCore.QThread):
             elif 'wake up' in query_lower or 'wakeup' in query_lower or 'activate wake up mode' in query_lower:
                 wake_up_mode()
 
-            # Convert query to lowercase for case-insensitive matching
+                # First, convert query to lowercase
                 query_lower = query.lower()
 
-            # Check for all screenshot-related commands
-            elif any(phrase in query_lower for phrase in ["capture screen", "take a screenshot", "screenshot", "screen shot"]):
+            # Screenshot command handling
+            elif any(phrase in query_lower for phrase in ["capture screen", "take a screenshot", "screenshot", "screen shot","capture"]):
                 try:
                     import pyautogui
                     screenshot = pyautogui.screenshot()
@@ -434,7 +434,7 @@ class MainThread(QtCore.QThread):
                 except Exception as e:
                     speak(f"Failed to take a screenshot: {e}")
                     print(f"Screenshot error: {e}")
-
+                    
             elif 'read news' in query_lower or 'current news' in query_lower or 'news mode' in query_lower:
                 read_news()
 
@@ -555,52 +555,23 @@ class MainThread(QtCore.QThread):
                 speak("Shutting down. Goodbye, sir.")
                 sys.exit()
 
-            # # Image generation request handling
-            # elif any(phrase in query_lower for phrase in ["generate image", "create image", "draw", "picture of", "show me", "visualize"]):
-            #     speak("I'll generate that image for you, sir.")
-            #     result = process_query(query)
-            #     speak("Image has been generated and saved.")
-
-            # # Code generation request handling
-            # elif any(phrase in query_lower for phrase in ["write code", "generate code", "code for", "program", "function", "script", "class"]):
-            #     speak("I'll write that code for you, sir.")
-            #     result = process_query(query)
-            #     speak("Code has been generated and saved.")
-
-            # # Default to text response from Gemini for all other queries
-            # else:
-            #     speak("Let me process that for you.")
-            #     result = process_query(query)
-            #     # Extract just the text part without token info for speaking
-            #     if isinstance(result, str) and "\n\n(Tokens Used:" in result:
-            #         text_part = result.split("\n\n(Tokens Used:")[0]
-            #         speak(text_part)
-            #     else:
-            #         speak(result)
-            # else:
-            #     speak("I am not programmed to answer that. Let me check online...")
-            #     response = query_google_gemini(query)
-            #     speak(response)
-            #     print(response)
-
-
-            # else:
-            #     speak("I am not programmed to answer that. Let me check online...")
-            #     response = query_google_gemini(query)
+            else:
+                speak("I am not programmed to answer that. Let me check online...")
+                response = query_google_gemini(query)
                 
-            #     # Split the response into content and token info (if present)
-            #     if "\n\nTokens - " in response:
-            #         main_content, token_info = response.split("\n\nTokens - ", 1)
-            #         token_info = "Tokens - " + token_info
-            #     else:
-            #         main_content = response
-            #         token_info = ""
+                # Split the response into content and token info (if present)
+                if "\n\nTokens - " in response:
+                    main_content, token_info = response.split("\n\nTokens - ", 1)
+                    token_info = "Tokens - " + token_info
+                else:
+                    main_content = response
+                    token_info = ""
                 
-            #     # Only speak the main content
-            #     speak(main_content)
+                # Only speak the main content
+                speak(main_content)
                 
-            #     # Print the full response including token info
-            #     print(response)
+                # Print the full response including token info
+                print(response)
 
 # Modified JarvisApp class
 class JarvisApp:
