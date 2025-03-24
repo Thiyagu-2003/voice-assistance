@@ -40,6 +40,7 @@ from temperature import get_weather_api
 from application_handler_new import open_website, open_system_app, close_application, close_website,type_in_app,save_file,process_app_command
 from gemini import query_google_gemini
 #from gemini import query_gemini_image, query_gemini_code, query_gemini_text,process_query
+from api import speak, listen, process_command, search_pincode, search_book, get_random_recipe, get_lyrics, get_quote, get_fun_fact, call_anime_quote_api, call_anime_character_api, get_lyrics, get_word_definition
 
 # Initialize pyttsx3 engine
 engine = pyttsx3.init('sapi5')
@@ -99,6 +100,7 @@ def process_app_command(command):
     if not command:
         return True
     command = command.lower().strip()
+
   # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  
 
 
@@ -233,6 +235,7 @@ def handle_how_are_you():
 
 def Terminalprint(self,text):
     self.Terminalext.appendPlainText(text)
+
 
 
 def process_weather_command(query):         #working    #new
@@ -549,13 +552,42 @@ class MainThread(QtCore.QThread):
                 # If neither worked, inform the user
                 if not app_success and not website_success:
                     speak(f"I couldn't find {item_name} as an open app or website tab.")
-                    
+
+            elif "book" in query_lower:
+                search_book(query_lower.replace("book", "").strip())
+
+            elif "pincode" in query_lower:
+                search_pincode(query_lower.split()[-1])
+
+            elif "recipe" in query_lower or "cook" in query_lower or "food" in query_lower:
+                get_random_recipe()
+
+            elif "lyrics" in query_lower and "by" in query_lower:
+                parts = query_lower.split("lyrics", 1)[1].strip()
+                song, artist = parts.split("by", 1)
+                get_lyrics(artist.strip(), song.strip())
+
+            elif "quote" in query_lower or "inspiration" in query_lower:
+                get_quote()
+
+            elif "fact" in query_lower:
+                get_fun_fact()
+
+            elif "anime quote" in query_lower:
+                call_anime_quote_api()
+
+            elif "anime character" in query_lower:
+                call_anime_character_api()
+            
+            elif "meaning" in query_lower or "define" in query_lower or "dictionary" in query_lower:
+                get_word_definition()
 
             elif 'shutup' in query_lower or 'exit program' in query_lower or 'exit' in query_lower:
                 speak("Shutting down. Goodbye, sir.")
                 sys.exit()
 
-            else:
+            elif "gemini" in query_lower:
+            #else:
                 speak("I am not programmed to answer that. Let me check online...")
                 response = query_google_gemini(query)
                 
