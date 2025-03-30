@@ -141,7 +141,7 @@ class JarvisGUI(QWidget):
         self.setStyleSheet("background-color: black; color: white;")
         
         # Set the window icon
-        icon_path = r"D:\FINAL_YEAR_PROJECT\voice-assistance\Jarvis-ai-main\Material\Nova Logo.ico"
+        icon_path = r"D:\FINAL_YEAR_PROJECT\voice-assistance\NOVA-ai-main\Material\Nova Logo.ico"
         self.setWindowIcon(QIcon(icon_path))
 
         self.recipient_email = "example@gmail.com"
@@ -259,7 +259,7 @@ class JarvisGUI(QWidget):
         webbrowser.open(gmail_url)
 
     def launch_desktop_2(self):
-        desktop_2_path = os.path.abspath(r"D:\FINAL_YEAR_PROJECT\voice-assistance\Jarvis-ai-main\desktop_2.py")  
+        desktop_2_path = os.path.abspath(r"D:\FINAL_YEAR_PROJECT\voice-assistance\NOVA-ai-main\desktop_2.py")  
         os.system(f'python "{desktop_2_path}"')  
         self.close()
 

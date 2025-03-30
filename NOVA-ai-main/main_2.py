@@ -582,6 +582,114 @@ class MainThread(QtCore.QThread):
             elif "meaning" in query_lower or "define" in query_lower or "dictionary" in query_lower:
                 get_word_definition()
 
+            elif any(phrase in query_lower for phrase in ["select all", "highlight all", "mark all"]):
+                try:
+                    import pyautogui
+                    pyautogui.hotkey("ctrl", "a")
+                    speak("All text selected")
+                    print("Select All command executed")
+                except Exception as e:
+                    speak(f"Failed to select all: {e}")
+                    print(f"Select All error: {e}")
+
+            elif any(phrase in query_lower for phrase in ["copy", "copy text"]):
+                try:
+                    import pyautogui
+                    pyautogui.hotkey("ctrl", "c")
+                    speak("Text copied")
+                    print("Copy command executed")
+                except Exception as e:
+                    speak(f"Failed to copy: {e}")
+                    print(f"Copy error: {e}")
+
+
+            elif any(phrase in query_lower for phrase in ["paste", "paste text"]):
+                try:
+                    import pyautogui
+                    pyautogui.hotkey("ctrl", "v")
+                    speak("Text pasted")
+                    print("Paste command executed")
+                except Exception as e:
+                    speak(f"Failed to paste: {e}")
+                    print(f"Paste error: {e}")
+
+
+            elif any(phrase in query_lower for phrase in ["save file", "save document", "save this"]):
+                try:
+                    import pyautogui
+                    pyautogui.hotkey("ctrl", "s")
+                    speak("File saved")
+                    print("Save command executed")
+                except Exception as e:
+                    speak(f"Failed to save file: {e}")
+                    print(f"Save error: {e}")
+
+            elif any(phrase in query_lower for phrase in ["undo", "go back"]):
+                try:
+                    import pyautogui
+                    pyautogui.hotkey("ctrl", "z")
+                    speak("Undo performed")
+                    print("Undo command executed")
+                except Exception as e:
+                    speak(f"Failed to undo: {e}")
+                    print(f"Undo error: {e}")
+
+            elif any(phrase in query_lower for phrase in ["redo", "do again"]):
+                try:
+                    import pyautogui
+                    pyautogui.hotkey("ctrl", "y")
+                    speak("Redo performed")
+                    print("Redo command executed")
+                except Exception as e:
+                    speak(f"Failed to redo: {e}")
+                    print(f"Redo error: {e}")
+
+
+            elif any(phrase in query_lower for phrase in ["capture screen", "take a screenshot"]):
+                try:
+                    import pyautogui
+                    screenshot = pyautogui.screenshot()
+                    timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+                    filename = f"screenshot_{timestamp}.png"
+                    screenshot.save(filename)
+                    
+                    # Open the screenshot
+                    os.system(filename)  # Works on Windows
+                    speak("Screenshot taken and opened")
+                    print(f"Screenshot saved as: {filename}")
+                except Exception as e:
+                    speak(f"Failed to take a screenshot: {e}")
+                    print(f"Screenshot error: {e}")
+
+            elif any(phrase in query_lower for phrase in ["move mouse", "mouse to center"]):
+                try:
+                    import pyautogui
+                    screen_width, screen_height = pyautogui.size()  # Get screen size
+                    pyautogui.moveTo(screen_width / 2, screen_height / 2, duration=1)  # Move to center
+                    speak("Mouse moved to the center")
+                    print("Mouse moved to center")
+                except Exception as e:
+                    speak(f"Failed to move mouse: {e}")
+                    print(f"Mouse move error: {e}")
+
+
+            elif any(phrase in query_lower for phrase in ["click", "left click"]):
+                import pyautogui
+                pyautogui.click()
+                speak("Clicked")
+
+            elif any(phrase in query_lower for phrase in ["double click"]):
+                import pyautogui
+                pyautogui.doubleClick()
+                speak("Double clicked")
+
+            elif any(phrase in query_lower for phrase in ["right click"]):
+                import pyautogui
+                pyautogui.rightClick()
+                speak("Right clicked")
+
+
+
             elif 'shutup' in query_lower or 'exit program' in query_lower or 'exit' in query_lower:
                 speak("Shutting down. Goodbye, sir.")
                 sys.exit()
@@ -614,8 +722,8 @@ class JarvisApp:
         """Execute Jarvis with proper sequence"""
         try:
             # Use the full paths to the desktop files
-            desktop_1_path = "D:\\FINAL_YEAR_PROJECT\\voice-assistance\\Jarvis-ai-main\\desktop_1.py"
-            desktop_2_path = "D:\\FINAL_YEAR_PROJECT\\voice-assistance\\Jarvis-ai-main\\desktop_2.py"
+            desktop_1_path = "D:\\FINAL_YEAR_PROJECT\\voice-assistance\\NOVA-ai-main\\desktop_1.py"
+            desktop_2_path = "D:\\FINAL_YEAR_PROJECT\\voice-assistance\\NOVA-ai-main\\desktop_2.py"
             
             # Launch desktop_1.py and wait for it to complete initialization
             print("Launching Desktop 1...")
