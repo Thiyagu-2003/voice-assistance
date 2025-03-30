@@ -1,0 +1,137 @@
+                    Nova Voice Assistant Features
+
+# NOVA -AI
+Functions performed by the AI :
+
+-google search
+-play videos on youtube
+-youtube automation
+-browser automation
+-sleep function
+-search your location
+-check the current temperature
+-check your ip address
+-check your Wi-fi speed
+-provide you news from NASA with image
+-open any files in computer
+-hotword detection
+-calculate 
+-search the map
+-gives answer to every question
+-chatbot
+-personal assistant
+-screenshot
+-screenrecord
+-wikipedia search
+-windows automation
+-open websites
+-scrool up and down
+-tutorial of almost everthing
+-toggle on/off
+-play a rock, paper , scissors game with you
+-clipboard automation
+
+COMMAND TO INSTALL THE REQUIREMENTS:
+
+windows = pip install -r requirements.txt
+
+
+
+
+🔹 SYSTEM CONTROL & NAVIGATION
+
+    Wake Up Mode – "wake up", "wakeup", "activate wake up mode"
+    Sleep Mode – "sleep mode", "sleep nova", "activate sleep mode"
+    Exit Program – "shut up", "exit program", "exit"
+    Windows Controls:
+    "home screen", "minimize", "maximize"
+    "shutdown", "restart", "log out", "system sleep"
+    "take a screenshot", "start recording", "stop recording"
+    "close the window", "close the application"
+
+
+
+🔹 SEARCH & INFORMATION RETRIEVAL
+
+    Wikipedia Search – "tell me about 'query'"
+    Find Location – "where is 'place name'"
+    Find Location by Pincode – "pincode"
+    Current Location – "my location", "current location", "where am I"
+    IP Address – "ip address", "my ip address"
+    Internet Speed Check – "internet speed"
+    Battery Status – "battery status", "battery percentage"
+    Time & Date – "time", "date"
+
+
+
+🔹 ENTERTAINMENT & MEDIA
+
+    Jokes – "joke", "tell me a joke"
+    Play Song on YouTube – "play 'song name'"
+    YouTube Controls:
+    "pause", "resume", "mute", "unmute"
+    "next", "previous", "fullscreen"
+    "increase/decrease volume", "max volume"
+
+
+
+🔹 WEB & BROWSER AUTOMATION
+
+    Scroll on Website – "scroll up", "scroll down", "scroll to top", "scroll to bottom"
+    Browser Commands:
+    "add new tab", "close tab", "zoom in", "zoom out"
+    "refresh page", "open history", "open bookmarks"
+    "go back", "go forward", "toggle full screen"
+
+
+
+🔹 SMART ASSISTANT FEATURES
+
+    Dictionary – "meaning", "define", "dictionary"
+    Book Search – "book"
+    Movie Ratings – "movie"
+    Get Motivational Quotes – "quote", "inspiration"
+    Get Random Facts – "fact"
+    Anime Features:
+    Quotes – "anime quote"
+    Character Details – "anime character"
+
+
+
+🔹 SYSTEM APPLICATIONS & CONTROL
+
+    Open/Close Apps or Websites:
+    Open – "open 'app or website name'"
+    Close – "close 'app or website name'"
+    Open Camera – "open camera"
+    Close Camera – "close camera"
+    Open Nova Documentation – "open nova documentation", "open documentation"
+
+
+
+🔹 TYPING & EDITING FUNCTIONS
+
+    Enable Typing Mode – "type", "start typing", "typing mode"
+    Exit Typing – "exit typing", "stop typing", "quit typing"
+
+
+    Clipboard & Text Editing:
+    Select All – "select all", "highlight all"
+    Copy – "copy", "copy text"
+    Paste – "paste", "copy paste"
+    Save File – "save file", "save document"
+    Undo – "undo", "go back"
+    Redo – "redo", "do again"
+
+
+
+🔹 MOUSE & INPUT CONTROL
+
+    Move Mouse – "move mouse", "mouse to center"
+    Mouse Clicks:
+    Left Click – "click", "left click"
+    Right Click – "click", "right click"
+    Double Click – "click", "double click"
+
+
+
