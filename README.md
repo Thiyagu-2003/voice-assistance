@@ -4,13 +4,56 @@ A Python-based voice assistant with a modern **PyQt6 GUI**, speech capabilities,
 
 ## 🚀 Features
 
-- 🎤 Voice command functionality
-- 🎞️ GIF animations synced with speech output
-- 📂 Application management (open, close, minimize apps)
-- 📊 Task automation and execution
-- 🔍 Real-time information retrieval (e.g., weather, news)
-- 🗂️ File management (open, create, delete files)
-- 🖥️ System monitoring (CPU usage, memory status)
+### 🔧 System Control & Navigation
+
+- Activates wake-up and sleep modes.
+- Closes the program.
+- Manages system functions like shutdown, restart, log out, and sleep.
+- Takes screenshots, starts/stops recording, and closes applications.
+
+### 🔍 Search & Information Retrieval
+
+- Performs Wikipedia searches.
+- Finds locations by name or pincode.
+- Provides current location and IP address.
+- Checks internet speed and battery status.
+- Retrieves the current time and date.
+
+### 🎭 Entertainment & Media
+
+- Tells jokes.
+- Plays songs on YouTube.
+- Controls YouTube playback (pause, resume, mute, volume adjustments, etc.).
+
+### 🌐 Web & Browser Automation
+
+- Scrolls webpages.
+- Opens/closes tabs, zooms in/out, refreshes pages, and manages browser history.
+- Navigates forward and backward in the browser.
+
+### 🧠 Smart Assistant Features
+
+- Provides dictionary meanings.
+- Searches for books and movie ratings.
+- Offers motivational quotes and random facts.
+- Retrieves anime quotes and character details.
+
+### 🖥️ System Applications & Control
+
+- Opens and closes apps or websites.
+- Controls the camera.
+- Opens Nova documentation.
+
+### ⌨️ Typing & Editing Functions
+
+- Enables/disables typing mode.
+- Performs clipboard operations like copy, paste, and selecting all text.
+- Saves documents and supports undo/redo actions.
+
+### 🖱️ Mouse & Input Control
+
+- Moves the mouse cursor.
+- Executes left, right, and double-click actions.
 
 ## 🛠️ Technologies Used
 
@@ -46,11 +89,11 @@ pip install -r requirements.txt
 1. **Run the main file**
 
 ```bash
-python Jarvis.py
+python main_2.py
 ```
 
 2. **Features flow:**
-   - Launches `desktop_1.py` from `Jarvis.py`.
+   - Launches `desktop_1.py` from `main_2.py`.
    - Clicking the **Start** button plays a GIF and speaks sentences.
    - Automatically closes `desktop_1.py` and opens `desktop_2.py`.
 
