@@ -101,37 +101,6 @@ def process_app_command(command):
         return True
     command = command.lower().strip()
 
-  # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  
-
-
-
-
-# def speak(audio):
-#     """Speak the given text."""
-#     engine.say(audio)
-#     engine.runAndWait()
-
-# def listen_command():
-#     """Listen for a voice command from the user."""
-#     recognizer = sr.Recognizer()
-#     with sr.Microphone() as source:
-#         print("Listening...")
-#         recognizer.adjust_for_ambient_noise(source)
-#         audio = recognizer.listen(source, timeout=4)
-    
-#     try:
-#         command = recognizer.recognize_google(audio, language='en-in').lower()
-#         print(f"You said: {command}\n")
-#         return command
-#     except sr.UnknownValueError:
-#         speak("Sorry, I couldn't understand that.")
-#         return ""
-#     except sr.RequestError:
-#         speak("Sorry, there was an issue with the speech recognition service.")
-#         return ""
-
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
 # Sleep and Wake-up functions
 def sleep_mode():
     global active
