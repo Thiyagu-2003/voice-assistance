@@ -631,8 +631,8 @@ class JarvisApp:
         """Execute Jarvis with proper sequence"""
         try:
             # Use the full paths to the desktop files
-            desktop_1_path = "D:\\FINAL_YEAR_PROJECT\\voice-assistance\\Jarvis-ai-main\\desktop_1.py"
-            desktop_2_path = "D:\\FINAL_YEAR_PROJECT\\voice-assistance\\Jarvis-ai-main\\desktop_2.py"
+            desktop_1_path = "D:\\FINAL_YEAR_PROJECT\\voice-assistance\\NOVA-ai-main\\desktop_1.py"
+            desktop_2_path = "D:\\FINAL_YEAR_PROJECT\\voice-assistance\\NOVA-ai-main\\desktop_2.py"
             
             # Launch desktop_1.py and wait for it to complete initialization
             safe_terminal_print("Launching Desktop 1...")
