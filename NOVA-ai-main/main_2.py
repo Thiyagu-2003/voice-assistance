@@ -238,7 +238,7 @@ class MainThread(QtCore.QThread):
         with sr.Microphone() as source:
             print("Listening...")
             r.pause_threshold = 1
-            audio = r.listen(source, timeout=4)
+            audio = r.listen(source, timeout=5)
 
         try:
             print("Recognizing...")
@@ -493,6 +493,22 @@ class MainThread(QtCore.QThread):
                     close_application("Photo Booth")
                 elif platform.system() == 'Linux':
                     close_application("cheese")
+
+            # New photo capture functionality
+            elif any(command in query_lower for command in ['click', 'capture', 'take photo', 'cheese']):
+                speak("Taking a photo.")
+                if platform.system() == 'Windows':
+                    # Simulate Space key press to take photo in Windows Camera app
+                    import pyautogui
+                    pyautogui.press('space')
+                elif platform.system() == 'Darwin':  # macOS
+                    # Simulate Command+T to take photo in Photo Booth
+                    import pyautogui
+                    pyautogui.hotkey('command', 't')
+                elif platform.system() == 'Linux':
+                    # For Linux with cheese, can use dbus or simulate keyboard shortcut
+                    import pyautogui
+                    pyautogui.press('space')
 
             elif 'open' in query_lower and len(query.replace('open', '').strip()) > 0:
                 item_name = query.lower().replace("open", "").strip()
