@@ -25,45 +25,7 @@ logging.basicConfig(filename="gemini_queries.log", level=logging.INFO)
 GENMI_API_KEY = "Replace with your actual gemini API key"  # Replace with your actual API key
 genai.configure(api_key=GENMI_API_KEY)
 
-# def query_google_gemini(query, is_image_request=False):
-#     """Send a query to Google Gemini and return the response or image."""
-#     try:
-#         model_name = "gemini-1.5-pro-vision" if is_image_request else "gemini-1.5-flash-latest"
-#         model = genai.GenerativeModel(model_name)
-        
-#         if is_image_request:
-#             response = model.generate_content([{"text": query}])
-#             if hasattr(response, "candidates") and response.candidates:
-#                 image_url = response.candidates[0].content.parts[0].inline_data.data
-#                 image_data = get(image_url).content
-#                 image = Image.open(BytesIO(image_data))
-#                 image_path = "generated_image.png"
-#                 image.save(image_path)
-#                 image.show()
-#                 return "Image downloaded and displayed."
-#             else:
-#                 return "No image generated."
-#         else:
-#             response = model.generate_content(query)
-            
-#             # More robust way to handle usage metadata
-#             usage_info = ""
-#             if hasattr(response, 'usage_metadata'):
-#                 # Get all available attributes dynamically
-#                 metadata_attrs = vars(response.usage_metadata)
-#                 usage_details = ", ".join([f"{k}: {v}" for k, v in metadata_attrs.items()])
-#                 usage_info = f"\n\n(Usage Metadata: {usage_details})"
-            
-#             return f"{response.text}{usage_info}"
-    
-#     except Exception as e:
-#         error_message = f"Error: {e}"
-#         logging.error(error_message)
-#         return error_message
 
-
-
-#+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 def query_google_gemini(query, is_image_request=False):
     """Send a query to Google Gemini and return the response or image."""
     try:
