@@ -211,7 +211,7 @@ def fetch_news(api_key, country="us"):
 # Main function to read news
 def read_news():
     # Replace with your News API key
-    api_key = "e3069d485c0844dfa0f74935985f0d05"
+    api_key = " your news api key "# news api key
 
     speak("Fetching the latest news for you.")
     articles = fetch_news(api_key)

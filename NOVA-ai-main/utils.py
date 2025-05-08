@@ -131,19 +131,3 @@ def listen_command():
             speak("Sorry, I'm having trouble connecting. Please try again later.")
             return ""
 
-        
-# #*******************************************************************************************************
-
-# import gemini
-# from gemini import Image
-
-# def generate_image(prompt, api_key):
-#     gemini.init(api_key=api_key)
-#     image = Image.create(prompt)
-#     return image
-
-# api_key = "AizaSyAhg2BCOhXfJBlv3rPw1Jpy6QztTMKFFS8"
-# prompt = "A painting of a sunset over a vast ocean"
-# image = generate_image(prompt, api_key)
-# image.save("sunset_ocean.png")
-

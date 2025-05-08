@@ -54,7 +54,8 @@ def get_weather_api(location="Chennai"):
         print(f"Fetching weather details for: {location}")
         
         # It's better to store this in an environment variable or config file
-        api_key = "1901c1f39cfc4480bbf152234251903"  # Replace with your actual API key
+        api_key = "your weather api key"  # Replace with your actual API key
+        # API endpoint for weather forecast
         url = f"http://api.weatherapi.com/v1/forecast.json?key={api_key}&q={location}&days=2&aqi=yes"
         
         response = requests.get(url)

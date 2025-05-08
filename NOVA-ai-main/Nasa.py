@@ -4,7 +4,8 @@ import os
 import pyttsx3
 
 # NASA API Key
-Api_key = "7ZXkdMVvFEKJOSYUBke8DLZhKA6Hs32BQFiCwGl7"
+Api_key = " NASA API Key" # Replace with your actual API key
+# Note: You can get a free API key from NASA's website if you don't have one.
 
 # Initialize TTS engine
 engine = pyttsx3.init('sapi5')
